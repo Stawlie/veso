@@ -1,0 +1,33 @@
+{
+  "name": "veso",
+  "version": "0.0.0",
+  "description": "Validation for Every Single One",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon dist/boot/index.js",
+    "build": "tsc --watch -p tsconfig.json",
+    "test": "jest --config"
+  },
+  "keywords": [
+    "validation",
+    "typesafe",
+    "rules"
+  ],
+  "files": [
+    "dist",
+    "types/*.d.ts"
+  ],
+  "types": "./src/boot/index.d.ts",
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/types": "^7.24.6",
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "nodemon": "^3.1.1",
+    "quasar": "^2.16.4",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.5",
+    "vue": "^3.4.27"
+  }
+}
