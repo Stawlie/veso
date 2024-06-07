@@ -2,8 +2,6 @@ export const VesoValueTypes = {
   string: "string",
   nan: "nan",
   number: "number",
-  // integer: "integer",
-  // float: "float",
   boolean: "boolean",
   date: "date",
   bigint: "bigint",
@@ -14,15 +12,14 @@ export const VesoValueTypes = {
   array: "array",
   object: "object",
   unknown: "unknown",
-  // void: "void",
-  // never: "never",
+  promise: "promise",
   map: "map",
   set: "set",
 } as const;
 
 export type VesoValueTypes = keyof typeof VesoValueTypes;
 
-export function getValueType(value: unknown): VesoValueTypes {
+export function getValueType(value: any): VesoValueTypes {
   const type = typeof value;
 
   switch (type) {
@@ -53,6 +50,14 @@ export function getValueType(value: unknown): VesoValueTypes {
       }
       if (value === null) {
         return VesoValueTypes.null;
+      }
+      if (
+        value.then &&
+        typeof value.then === "function" &&
+        value.catch &&
+        typeof value.catch === "function"
+      ) {
+        return VesoValueTypes.promise;
       }
       if (typeof Map !== "undefined" && value instanceof Map) {
         return VesoValueTypes.map;

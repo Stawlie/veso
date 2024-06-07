@@ -1,7 +1,7 @@
 {
   "name": "veso",
   "version": "0.0.0",
-  "description": "Validation for Every Single One",
+  "description": "Simple, lightweight and typesafe chain validator!",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon dist/boot/index.js",
