@@ -17,6 +17,8 @@ export const LOCALE = {
     `The value must have less than ${value} characters!`,
   maxLengthInclusive: (value: number) =>
     `The value must have less than or equal to ${value} characters!`,
+  exactLength: (value: number) =>
+    `The value must have exactly ${value} characters!`,
   startsWith: (value: string) => `The value must start with ${value}!`,
   endsWith: (value: string) => `The value must end with ${value}!`,
   includes: (value: string) => `The value must include ${value}!`,
@@ -26,9 +28,9 @@ export const LOCALE = {
   email: "The value must be an email!",
   url: "The value must be a URL!",
   unique: (value: number) =>
-    `The value must contain more than ${value} unique symbols!`,
+    `The value must contain more than ${value} unique characters!`,
   uniqueInclusive: (value: number) =>
-    `The value must contain at least ${value} unique symbols!`,
+    `The value must contain at least ${value} unique characters!`,
 };
 
 export type VesoStringValueTypes = "string" | "null" | "undefined";
@@ -37,6 +39,7 @@ export type VesoStringCheck =
   | { type: "required"; message: string }
   | { type: "minLength"; value: number; inclusive: boolean; message: string }
   | { type: "maxLength"; value: number; inclusive: boolean; message: string }
+  | { type: "exactLength"; value: number; message: string }
   | { type: "startsWith"; value: string; message: string }
   | { type: "endsWith"; value: string; message: string }
   | { type: "includes"; value: string; position?: number; message: string }

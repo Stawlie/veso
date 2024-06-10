@@ -68,6 +68,14 @@ class VesoString {
     });
   }
 
+  public exactLength(value: number, message?: string) {
+    return this._addCheck({
+      type: "exactLength",
+      message: message || UTILS.LOCALE.exactLength(value),
+      value,
+    });
+  }
+
   public startsWith(value: string, message?: string) {
     return this._addCheck({
       type: "startsWith",
@@ -153,7 +161,7 @@ class VesoString {
   public validate(value: any) {
     const valueType = getValueType(value);
 
-    // Base type validation (null and undefined should be invalid only with "required" rule)
+    // Base type validation (null and undefined should be invalid only with "required" check)
     if (
       valueType !== VesoValueTypes.string &&
       valueType !== VesoValueTypes.null &&

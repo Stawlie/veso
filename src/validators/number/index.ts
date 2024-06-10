@@ -32,39 +32,39 @@ class VesoNumber {
     });
   }
 
-  public greaterThen(value: number, message?: string) {
+  public min(value: number, message?: string) {
     return this._addCheck({
       type: "min",
       inclusive: false,
       value,
-      message: message || UTILS.LOCALE.greaterThen(value),
+      message: message || UTILS.LOCALE.min(value),
     });
   }
 
-  public greaterThenInclusive(value: number, message?: string) {
+  public minInclusive(value: number, message?: string) {
     return this._addCheck({
       type: "min",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.greaterThenInclusive(value),
+      message: message || UTILS.LOCALE.minInclusive(value),
     });
   }
 
-  public lessThen(value: number, message?: string) {
+  public max(value: number, message?: string) {
     return this._addCheck({
       type: "max",
       inclusive: false,
       value,
-      message: message || UTILS.LOCALE.lessThen(value),
+      message: message || UTILS.LOCALE.max(value),
     });
   }
 
-  public lessThenInclusive(value: number, message?: string) {
+  public maxInclusive(value: number, message?: string) {
     return this._addCheck({
       type: "max",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.lessThenInclusive(value),
+      message: message || UTILS.LOCALE.maxInclusive(value),
     });
   }
 
@@ -156,7 +156,7 @@ class VesoNumber {
   public validate(value: any) {
     const valueType = getValueType(value);
 
-    // Base type validation (null and undefined should be invalid only with "required" rule)
+    // Base type validation (null and undefined should be invalid only with "required" check)
     if (
       valueType !== VesoValueTypes.number &&
       valueType !== VesoValueTypes.null &&

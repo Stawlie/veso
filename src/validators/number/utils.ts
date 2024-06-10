@@ -7,12 +7,10 @@ export * from "./utils";
 
 export const LOCALE = {
   required: "The value is required!",
-  greaterThen: (value: number) => `Must be greater than ${value}!`,
-  greaterThenInclusive: (value: number) =>
-    `Must be greater than or equal to ${value}!`,
-  lessThen: (value: number) => `Must be less than ${value}!`,
-  lessThenInclusive: (value: number) =>
-    `Must be less than or equal to ${value}!`,
+  min: (value: number) => `Must be greater than ${value}!`,
+  minInclusive: (value: number) => `Must be greater than or equal to ${value}!`,
+  max: (value: number) => `Must be less than ${value}!`,
+  maxInclusive: (value: number) => `Must be less than or equal to ${value}!`,
   between: (min: number, max: number) => `Must be between ${min} and ${max}!`,
   positive: "Must be positive!",
   negative: "Must be negative!",

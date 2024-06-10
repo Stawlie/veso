@@ -1,11 +1,11 @@
 import { VesoValueTypes, getValueType } from "../utils";
 import * as UTILS from "./utils";
 
-class VesoArray {
-  private _check: UTILS.VesoArrayCheck[] = [];
+class VesoDate {
+  private _check: UTILS.VesoDateCheck[] = [];
   private _validationIssue: string | null = null;
 
-  constructor(settings?: UTILS.VesoArrayConstructor) {
+  constructor(settings?: UTILS.VesoDateConstructor) {
     if (!settings) {
       return;
     }
@@ -14,65 +14,70 @@ class VesoArray {
   }
 
   static create() {
-    return new VesoArray({
+    return new VesoDate({
       check: [],
     });
   }
 
-  private _addCheck(check: UTILS.VesoArrayCheck) {
-    return new VesoArray({
+  private _addCheck(check: UTILS.VesoDateCheck) {
+    return new VesoDate({
       check: [...this._check, check],
     });
   }
 
-  public required(message?: string) {
+  public min(value: number, message?: string) {
     return this._addCheck({
-      type: "required",
-      message: message || UTILS.LOCALE.required,
-    });
-  }
-
-  public minLength(value: number, message?: string) {
-    return this._addCheck({
-      type: "minLength",
+      type: "min",
       inclusive: false,
-      message: message || UTILS.LOCALE.minLength(value),
       value,
+      message: message || UTILS.LOCALE.min(value),
     });
   }
 
-  public minLengthInclusive(value: number, message?: string) {
+  public minInclusive(value: number, message?: string) {
     return this._addCheck({
-      type: "minLength",
+      type: "min",
       inclusive: true,
-      message: message || UTILS.LOCALE.minLengthInclusive(value),
       value,
+      message: message || UTILS.LOCALE.minInclusive(value),
     });
   }
 
-  public maxLength(value: number, message?: string) {
+  public max(value: number, message?: string) {
     return this._addCheck({
-      type: "maxLength",
+      type: "max",
       inclusive: false,
-      message: message || UTILS.LOCALE.maxLength(value),
       value,
+      message: message || UTILS.LOCALE.max(value),
     });
   }
 
-  public maxLengthInclusive(value: number, message?: string) {
+  public maxInclusive(value: number, message?: string) {
     return this._addCheck({
-      type: "maxLength",
+      type: "max",
       inclusive: true,
-      message: message || UTILS.LOCALE.maxLengthInclusive(value),
       value,
+      message: message || UTILS.LOCALE.maxInclusive(value),
     });
   }
 
-  public exactLength(value: number, message?: string) {
+  public between(min: number, max: number, message?: string) {
+    if (min > max) {
+      console.warn(
+        `Number Validator: Min(${min}) should be less or equal than Max(${max})!`
+      );
+    }
+
     return this._addCheck({
-      type: "exactLength",
-      message: message || UTILS.LOCALE.exactLength(value),
-      value,
+      type: "min",
+      inclusive: true,
+      message: message || UTILS.LOCALE.between(min, max),
+      value: min,
+    })._addCheck({
+      type: "max",
+      inclusive: true,
+      message: message || UTILS.LOCALE.between(min, max),
+      value: max,
     });
   }
 
@@ -81,12 +86,12 @@ class VesoArray {
 
     // Base type validation (null and undefined should be invalid only with "required" check)
     if (
-      valueType !== VesoValueTypes.array &&
+      valueType !== VesoValueTypes.date &&
       valueType !== VesoValueTypes.null &&
       valueType !== VesoValueTypes.undefined
     ) {
       console.error(
-        `Array Validator: Type of the value must be valid! Current type: ${valueType}`
+        `Date Validator: Type of the value must be valid! Current type: ${valueType}`
       );
       return false;
     }
@@ -106,8 +111,8 @@ class VesoArray {
           break loop;
         }
 
-        case "exactLength": {
-          if (UTILS.exactLength(value, valueType, check.value)) {
+        case "min": {
+          if (UTILS.min(value, valueType, check.value, check.inclusive)) {
             break;
           }
 
@@ -115,17 +120,8 @@ class VesoArray {
           break loop;
         }
 
-        case "maxLength": {
-          if (UTILS.maxLength(value, valueType, check.value, check.inclusive)) {
-            break;
-          }
-
-          this._validationIssue = check.message;
-          break loop;
-        }
-
-        case "minLength": {
-          if (UTILS.minLength(value, valueType, check.value, check.inclusive)) {
+        case "max": {
+          if (UTILS.max(value, valueType, check.value, check.inclusive)) {
             break;
           }
 
@@ -148,4 +144,4 @@ class VesoArray {
   }
 }
 
-export const array = VesoArray.create;
+export const date = VesoDate.create;
