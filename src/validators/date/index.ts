@@ -25,6 +25,13 @@ class VesoDate {
     });
   }
 
+  public required(message?: string) {
+    return this._addCheck({
+      type: "required",
+      message: message || UTILS.LOCALE.required,
+    });
+  }
+
   public min(value: number, message?: string) {
     return this._addCheck({
       type: "min",
