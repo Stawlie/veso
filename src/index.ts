@@ -1,4 +1,4 @@
-import * as v from "./rules";
-export * from "./rules";
+import * as v from "./validators";
+export * from "./validators";
 export { v };
 export default v;

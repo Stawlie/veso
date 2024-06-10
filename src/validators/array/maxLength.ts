@@ -8,7 +8,7 @@ export function maxLength(
   inclusive: boolean
 ) {
   if (!required(valueType)) {
-    return false;
+    return true;
   }
 
   return inclusive ? value.length <= maxLength : value.length < maxLength;

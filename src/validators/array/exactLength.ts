@@ -7,7 +7,7 @@ export function exactLength(
   exactLength: number
 ) {
   if (!required(valueType)) {
-    return false;
+    return true;
   }
 
   return value.length === exactLength;

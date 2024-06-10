@@ -1,7 +1,7 @@
 import { VesoValueTypes } from "../utils";
-import { VesoNumberValueTypes } from "./utils";
+import { VesoStringValueTypes } from "./utils";
 
-export function required(valueType: VesoNumberValueTypes) {
+export function required(value: string, valueType: VesoStringValueTypes) {
   if (
     valueType === VesoValueTypes.null ||
     valueType === VesoValueTypes.undefined
@@ -9,5 +9,5 @@ export function required(valueType: VesoNumberValueTypes) {
     return false;
   }
 
-  return true;
+  return value.length > 0;
 }

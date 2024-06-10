@@ -1,3 +1,3 @@
-import v from "../index";
+import v from "../";
 
-console.log(v.array().exactLength(3).validate([1, 2, 3]));
+console.log(v.array().required().validate([]));

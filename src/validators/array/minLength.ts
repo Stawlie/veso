@@ -8,7 +8,7 @@ export function minLength(
   inclusive: boolean
 ) {
   if (!required(valueType)) {
-    return false;
+    return true;
   }
 
   return inclusive ? value.length >= minLength : value.length > minLength;
