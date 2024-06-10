@@ -71,7 +71,9 @@ class VesoDate {
   public between(min: number, max: number, message?: string) {
     if (min > max) {
       console.warn(
-        `Number Validator: Min(${min}) should be less or equal than Max(${max})!`
+        `Date Validator: Min(${new Date(
+          min
+        )}) should be less or equal than Max(${new Date(max)})!`
       );
     }
 
