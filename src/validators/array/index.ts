@@ -132,6 +132,11 @@ class VesoArray {
           this._validationIssue = check.message;
           break loop;
         }
+
+        default: {
+          console.error(`Array Validator: Unknown check type!`, check);
+          break loop;
+        }
       }
     }
 

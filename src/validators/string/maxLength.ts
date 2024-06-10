@@ -1,9 +1,9 @@
 import { required } from "./required";
-import { VesoArrayValueTypes } from "./utils";
+import { VesoStringValueTypes } from "./utils";
 
 export function maxLength(
-  value: any[],
-  valueType: VesoArrayValueTypes,
+  value: string,
+  valueType: VesoStringValueTypes,
   maxLength: number,
   inclusive: boolean
 ) {

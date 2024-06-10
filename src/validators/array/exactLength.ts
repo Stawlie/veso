@@ -6,7 +6,7 @@ export function exactLength(
   valueType: VesoArrayValueTypes,
   exactLength: number
 ) {
-  if (!required(valueType)) {
+  if (!required(value, valueType)) {
     return true;
   }
 

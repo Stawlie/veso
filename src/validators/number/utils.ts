@@ -13,6 +13,7 @@ export const LOCALE = {
   lessThen: (value: number) => `Must be less than ${value}!`,
   lessThenInclusive: (value: number) =>
     `Must be less than or equal to ${value}!`,
+  between: (min: number, max: number) => `Must be between ${min} and ${max}!`,
   positive: "Must be positive!",
   negative: "Must be negative!",
   nonpositive: "Must be non-positive!",

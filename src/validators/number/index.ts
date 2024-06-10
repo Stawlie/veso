@@ -68,6 +68,26 @@ class VesoNumber {
     });
   }
 
+  public between(min: number, max: number, message?: string) {
+    if (min > max) {
+      console.warn(
+        `Number Validator: Min(${min}) should be less or equal than Max(${max})!`
+      );
+    }
+
+    return this._addCheck({
+      type: "min",
+      inclusive: true,
+      message: message || UTILS.LOCALE.between(min, max),
+      value: min,
+    })._addCheck({
+      type: "max",
+      inclusive: true,
+      message: message || UTILS.LOCALE.between(min, max),
+      value: max,
+    });
+  }
+
   public positive(message?: string) {
     return this._addCheck({
       type: "min",
@@ -196,6 +216,11 @@ class VesoNumber {
           }
 
           this._validationIssue = check.message;
+          break loop;
+        }
+
+        default: {
+          console.error(`Number Validator: Unknown check type!`, check);
           break loop;
         }
       }
