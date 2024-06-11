@@ -35,36 +35,18 @@ class VesoNumber {
   public min(value: number, message?: string) {
     return this._addCheck({
       type: "min",
-      inclusive: false,
-      value,
-      message: message || UTILS.LOCALE.min(value),
-    });
-  }
-
-  public minInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "min",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.minInclusive(value),
+      message: message || UTILS.LOCALE.min(value),
     });
   }
 
   public max(value: number, message?: string) {
     return this._addCheck({
       type: "max",
-      inclusive: false,
-      value,
-      message: message || UTILS.LOCALE.max(value),
-    });
-  }
-
-  public maxInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "max",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.maxInclusive(value),
+      message: message || UTILS.LOCALE.max(value),
     });
   }
 

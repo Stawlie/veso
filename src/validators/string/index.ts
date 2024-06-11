@@ -35,17 +35,7 @@ class VesoString {
   public minLength(value: number, message?: string) {
     return this._addCheck({
       type: "minLength",
-      inclusive: false,
       message: message || UTILS.LOCALE.minLength(value),
-      value,
-    });
-  }
-
-  public minLengthInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "minLength",
-      inclusive: true,
-      message: message || UTILS.LOCALE.minLengthInclusive(value),
       value,
     });
   }
@@ -53,17 +43,7 @@ class VesoString {
   public maxLength(value: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
-      inclusive: false,
       message: message || UTILS.LOCALE.maxLength(value),
-      value,
-    });
-  }
-
-  public maxLengthInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "maxLength",
-      inclusive: true,
-      message: message || UTILS.LOCALE.maxLengthInclusive(value),
       value,
     });
   }
@@ -143,17 +123,7 @@ class VesoString {
   public unique(value: number, message?: string) {
     return this._addCheck({
       type: "unique",
-      inclusive: false,
       message: message || UTILS.LOCALE.unique(value),
-      value,
-    });
-  }
-
-  public uniqueInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "unique",
-      inclusive: true,
-      message: message || UTILS.LOCALE.uniqueInclusive(value),
       value,
     });
   }
@@ -189,7 +159,7 @@ class VesoString {
         }
 
         case "minLength": {
-          if (UTILS.minLength(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.minLength(value, valueType, check.value)) {
             break;
           }
 
@@ -198,7 +168,7 @@ class VesoString {
         }
 
         case "maxLength": {
-          if (UTILS.maxLength(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.maxLength(value, valueType, check.value)) {
             break;
           }
 
@@ -243,7 +213,7 @@ class VesoString {
         }
 
         case "unique": {
-          if (UTILS.unique(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.unique(value, valueType, check.value)) {
             break;
           }
 

@@ -4,12 +4,11 @@ import { VesoStringValueTypes } from "./utils";
 export function unique(
   value: string,
   valueType: VesoStringValueTypes,
-  count: number,
-  inclusive: boolean
+  count: number
 ) {
   if (!required(value, valueType)) {
     return true;
   }
 
-  return inclusive ? new Set(value).size >= count : new Set(value).size > count;
+  return new Set(value).size >= count;
 }

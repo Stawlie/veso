@@ -35,17 +35,7 @@ class VesoArray {
   public minLength(value: number, message?: string) {
     return this._addCheck({
       type: "minLength",
-      inclusive: false,
       message: message || UTILS.LOCALE.minLength(value),
-      value,
-    });
-  }
-
-  public minLengthInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "minLength",
-      inclusive: true,
-      message: message || UTILS.LOCALE.minLengthInclusive(value),
       value,
     });
   }
@@ -53,17 +43,7 @@ class VesoArray {
   public maxLength(value: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
-      inclusive: false,
       message: message || UTILS.LOCALE.maxLength(value),
-      value,
-    });
-  }
-
-  public maxLengthInclusive(value: number, message?: string) {
-    return this._addCheck({
-      type: "maxLength",
-      inclusive: true,
-      message: message || UTILS.LOCALE.maxLengthInclusive(value),
       value,
     });
   }
@@ -116,7 +96,7 @@ class VesoArray {
         }
 
         case "maxLength": {
-          if (UTILS.maxLength(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.maxLength(value, valueType, check.value)) {
             break;
           }
 
@@ -125,7 +105,7 @@ class VesoArray {
         }
 
         case "minLength": {
-          if (UTILS.minLength(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.minLength(value, valueType, check.value)) {
             break;
           }
 

@@ -5,11 +5,9 @@ export * from "./maxLength";
 
 export const LOCALE = {
   required: "The value is required!",
-  minLength: (value: number) => `The value must have more than ${value} items!`,
-  minLengthInclusive: (value: number) =>
+  minLength: (value: number) =>
     `The value must have more than or equal to ${value} items!`,
-  maxLength: (value: number) => `The value must have less than ${value} items!`,
-  maxLengthInclusive: (value: number) =>
+  maxLength: (value: number) =>
     `The value must have less than or equal to ${value} items!`,
   exactLength: (value: number) => `The value must have exactly ${value} items!`,
 };
@@ -22,13 +20,11 @@ export type VesoArrayCheck =
   | {
       type: "minLength";
       value: number;
-      inclusive: boolean;
       message: string;
     }
   | {
       type: "maxLength";
       value: number;
-      inclusive: boolean;
       message: string;
     };
 

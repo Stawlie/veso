@@ -4,12 +4,11 @@ import { VesoDateValueTypes } from "./utils";
 export function min(
   value: Date,
   valueType: VesoDateValueTypes,
-  min: Date | number,
-  inclusive: boolean
+  min: Date | number
 ) {
   if (!required(value, valueType)) {
     return true;
   }
 
-  return inclusive ? value >= min : value > min;
+  return value >= min;
 }

@@ -4,12 +4,11 @@ import { VesoArrayValueTypes } from "./utils";
 export function minLength(
   value: any[],
   valueType: VesoArrayValueTypes,
-  minLength: number,
-  inclusive: boolean
+  minLength: number
 ) {
   if (!required(value, valueType)) {
     return true;
   }
 
-  return inclusive ? value.length >= minLength : value.length > minLength;
+  return value.length >= minLength;
 }

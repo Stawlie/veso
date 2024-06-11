@@ -10,12 +10,9 @@ export * from "./unique";
 export const LOCALE = {
   required: "The value is required!",
   minLength: (value: number) =>
-    `The value must have more than ${value} characters!`,
-  minLengthInclusive: (value: number) =>
     `The value must have more than or equal to ${value} characters!`,
+
   maxLength: (value: number) =>
-    `The value must have less than ${value} characters!`,
-  maxLengthInclusive: (value: number) =>
     `The value must have less than or equal to ${value} characters!`,
   exactLength: (value: number) =>
     `The value must have exactly ${value} characters!`,
@@ -28,8 +25,6 @@ export const LOCALE = {
   email: "The value must be an email!",
   url: "The value must be a URL!",
   unique: (value: number) =>
-    `The value must contain more than ${value} unique characters!`,
-  uniqueInclusive: (value: number) =>
     `The value must contain at least ${value} unique characters!`,
 };
 
@@ -37,14 +32,14 @@ export type VesoStringValueTypes = "string" | "null" | "undefined";
 
 export type VesoStringCheck =
   | { type: "required"; message: string }
-  | { type: "minLength"; value: number; inclusive: boolean; message: string }
-  | { type: "maxLength"; value: number; inclusive: boolean; message: string }
+  | { type: "minLength"; value: number; message: string }
+  | { type: "maxLength"; value: number; message: string }
   | { type: "exactLength"; value: number; message: string }
   | { type: "startsWith"; value: string; message: string }
   | { type: "endsWith"; value: string; message: string }
   | { type: "includes"; value: string; position?: number; message: string }
   | { type: "regex"; value: RegExp; message: string }
-  | { type: "unique"; value: number; inclusive: boolean; message: string };
+  | { type: "unique"; value: number; message: string };
 
 export type VesoStringConstructor = {
   check: VesoStringCheck[];
