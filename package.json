@@ -1,12 +1,19 @@
 {
   "name": "veso",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "Simple, lightweight and typesafe chain validator!",
-  "main": "src/index.js",
+  "main": "./lib/index.js",
+  "module": "./lib/index.mjs",
+  "type": "module",
   "scripts": {
     "dev": "nodemon dist/boot/index.js",
     "build": "tsc --watch -p tsconfig.json",
-    "test": "jest --config"
+    "test": "jest --config",
+    "build:esm": "rollup --config ./configs/rollup.config.js",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "version:patch": "npm version patch -no-git-tag-version",
+    "version:minor": "npm version minor -no-git-tag-version",
+    "version:major": "npm version major -no-git-tag-version"
   },
   "keywords": [
     "validation",
@@ -14,19 +21,22 @@
     "rules"
   ],
   "files": [
-    "dist",
-    "types/*.d.ts"
+    "/lib",
+    "/index.d.ts"
   ],
-  "types": "./src/boot/index.d.ts",
-  "author": "",
+  "types": "./index.d.ts",
+  "author": "Stawlie",
   "license": "MIT",
   "devDependencies": {
     "@babel/types": "^7.24.6",
     "@jest/globals": "^29.7.0",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/jest": "^29.5.12",
     "nodemon": "^3.1.1",
     "quasar": "^2.16.4",
+    "rollup": "^4.18.0",
     "ts-jest": "^29.1.4",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.5",
     "vue": "^3.4.27"
   }

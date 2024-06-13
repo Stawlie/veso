@@ -1,7 +1,7 @@
-import { VesoValueTypes, getValueType } from "../utils";
+import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
-class VesoString {
+export class VesoString {
   private _check: UTILS.VesoStringCheck[] = [];
   private _validationIssue: string | null = null;
 
@@ -20,22 +20,26 @@ class VesoString {
   }
 
   private _addCheck(check: UTILS.VesoStringCheck) {
-    return new VesoString({
-      check: [...this._check, check],
-    });
+    this._check.push(check);
+
+    return this;
   }
 
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message: message || UTILS.LOCALE.required,
+      message:
+        message || t("VESO.STRING.required") || UTILS.DEFAULT_MESSAGE.required,
     });
   }
 
   public minLength(value: number, message?: string) {
     return this._addCheck({
       type: "minLength",
-      message: message || UTILS.LOCALE.minLength(value),
+      message:
+        message ||
+        t("VESO.STRING.minLength", { minLength: value }) ||
+        UTILS.DEFAULT_MESSAGE.minLength(value),
       value,
     });
   }
@@ -43,7 +47,10 @@ class VesoString {
   public maxLength(value: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
-      message: message || UTILS.LOCALE.maxLength(value),
+      message:
+        message ||
+        t("VESO.STRING.maxLength", { maxLength: value }) ||
+        UTILS.DEFAULT_MESSAGE.maxLength(value),
       value,
     });
   }
@@ -51,7 +58,10 @@ class VesoString {
   public exactLength(value: number, message?: string) {
     return this._addCheck({
       type: "exactLength",
-      message: message || UTILS.LOCALE.exactLength(value),
+      message:
+        message ||
+        t("VESO.STRING.exactLength", { exactLength: value }) ||
+        UTILS.DEFAULT_MESSAGE.exactLength(value),
       value,
     });
   }
@@ -59,7 +69,10 @@ class VesoString {
   public startsWith(value: string, message?: string) {
     return this._addCheck({
       type: "startsWith",
-      message: message || UTILS.LOCALE.startsWith(value),
+      message:
+        message ||
+        t("VESO.STRING.startsWith", { startsWith: value }) ||
+        UTILS.DEFAULT_MESSAGE.startsWith(value),
       value,
     });
   }
@@ -67,7 +80,10 @@ class VesoString {
   public endsWith(value: string, message?: string) {
     return this._addCheck({
       type: "endsWith",
-      message: message || UTILS.LOCALE.endsWith(value),
+      message:
+        message ||
+        t("VESO.STRING.endsWith", { endsWith: value }) ||
+        UTILS.DEFAULT_MESSAGE.endsWith(value),
       value,
     });
   }
@@ -75,7 +91,10 @@ class VesoString {
   public includes(value: string, message?: string) {
     return this._addCheck({
       type: "includes",
-      message: message || UTILS.LOCALE.includes(value),
+      message:
+        message ||
+        t("VESO.STRING.includes", { includes: value }) ||
+        UTILS.DEFAULT_MESSAGE.includes(value),
       value,
     });
   }
@@ -83,7 +102,10 @@ class VesoString {
   public regex(value: RegExp, message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || UTILS.LOCALE.regex(value),
+      message:
+        message ||
+        t("VESO.STRING.regex", { regex: value }) ||
+        UTILS.DEFAULT_MESSAGE.regex(value),
       value,
     });
   }
@@ -91,7 +113,10 @@ class VesoString {
   public ip(ipType: UTILS.VesoIpTypes = "v4", message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || UTILS.LOCALE.ip(ipType),
+      message:
+        message ||
+        t("VESO.STRING.ip", { ip: ipType }) ||
+        UTILS.DEFAULT_MESSAGE.ip(ipType),
       value: ipType === "v4" ? UTILS.v4Regex : UTILS.v6Regex,
     });
   }
@@ -99,7 +124,7 @@ class VesoString {
   public mac(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || UTILS.LOCALE.mac,
+      message: message || t("VESO.STRING.mac") || UTILS.DEFAULT_MESSAGE.mac,
       value: UTILS.macRegex,
     });
   }
@@ -107,7 +132,7 @@ class VesoString {
   public email(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || UTILS.LOCALE.email,
+      message: message || t("VESO.STRING.email") || UTILS.DEFAULT_MESSAGE.email,
       value: UTILS.emailRegex,
     });
   }
@@ -115,7 +140,7 @@ class VesoString {
   public url(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || UTILS.LOCALE.url,
+      message: message || t("VESO.STRING.url") || UTILS.DEFAULT_MESSAGE.url,
       value: UTILS.urlRegex,
     });
   }
@@ -123,12 +148,17 @@ class VesoString {
   public unique(value: number, message?: string) {
     return this._addCheck({
       type: "unique",
-      message: message || UTILS.LOCALE.unique(value),
+      message:
+        message ||
+        t("VESO.STRING.unique") ||
+        UTILS.DEFAULT_MESSAGE.unique(value),
       value,
     });
   }
 
   public validate(value: any) {
+    this._validationIssue = null;
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)

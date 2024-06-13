@@ -3,7 +3,7 @@ export * from "./exactLength";
 export * from "./minLength";
 export * from "./maxLength";
 
-export const LOCALE = {
+export const DEFAULT_MESSAGE = {
   required: "The value is required!",
   minLength: (value: number) =>
     `The value must have more than or equal to ${value} items!`,

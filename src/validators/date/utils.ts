@@ -2,7 +2,7 @@ export * from "./required";
 export * from "./min";
 export * from "./max";
 
-export const LOCALE = {
+export const DEFAULT_MESSAGE = {
   required: "The value is required!",
   min: (value: Date | number) =>
     `Must be greater than or equal to ${new Date(value)}!`,

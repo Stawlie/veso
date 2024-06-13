@@ -1,16 +1,18 @@
+import { translate } from "./translate";
+
 export const VesoValueTypes = {
   string: "string",
-  nan: "nan",
   number: "number",
-  boolean: "boolean",
+  array: "array",
   date: "date",
-  bigint: "bigint",
-  symbol: "symbol",
-  function: "function",
   undefined: "undefined",
   null: "null",
-  array: "array",
   object: "object",
+  nan: "nan",
+  bigint: "bigint",
+  boolean: "boolean",
+  symbol: "symbol",
+  function: "function",
   unknown: "unknown",
   promise: "promise",
   map: "map",
@@ -73,4 +75,12 @@ export function getValueType(value: any): VesoValueTypes {
     default:
       return VesoValueTypes.unknown;
   }
+}
+
+export function t(key: string, data?: Record<string, any>) {
+  if (!translate) {
+    return null;
+  }
+
+  return translate(key, data);
 }

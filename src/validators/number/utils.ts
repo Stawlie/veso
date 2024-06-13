@@ -5,7 +5,7 @@ export * from "./max";
 export * from "./multipleOf";
 export * from "./utils";
 
-export const LOCALE = {
+export const DEFAULT_MESSAGE = {
   required: "The value is required!",
   min: (value: number) => `Must be greater than or equal to ${value}!`,
   max: (value: number) => `Must be less than or equal to ${value}!`,

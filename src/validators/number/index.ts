@@ -1,7 +1,7 @@
-import { VesoValueTypes, getValueType } from "../utils";
+import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
-class VesoNumber {
+export class VesoNumber {
   private _check: UTILS.VesoNumberCheck[] = [];
   private _validationIssue: string | null = null;
 
@@ -20,15 +20,16 @@ class VesoNumber {
   }
 
   private _addCheck(check: UTILS.VesoNumberCheck) {
-    return new VesoNumber({
-      check: [...this._check, check],
-    });
+    this._check.push(check);
+
+    return this;
   }
 
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message: message || UTILS.LOCALE.required,
+      message:
+        message || t("VESO.NUMBER.required") || UTILS.DEFAULT_MESSAGE.required,
     });
   }
 
@@ -37,7 +38,10 @@ class VesoNumber {
       type: "min",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.min(value),
+      message:
+        message ||
+        t("VESO.NUMBER.min", { min: value }) ||
+        UTILS.DEFAULT_MESSAGE.min(value),
     });
   }
 
@@ -46,7 +50,10 @@ class VesoNumber {
       type: "max",
       inclusive: true,
       value,
-      message: message || UTILS.LOCALE.max(value),
+      message:
+        message ||
+        t("VESO.NUMBER.max", { max: value }) ||
+        UTILS.DEFAULT_MESSAGE.max(value),
     });
   }
 
@@ -60,12 +67,18 @@ class VesoNumber {
     return this._addCheck({
       type: "min",
       inclusive: true,
-      message: message || UTILS.LOCALE.between(min, max),
+      message:
+        message ||
+        t("VESO.NUMBER.between", { min, max }) ||
+        UTILS.DEFAULT_MESSAGE.between(min, max),
       value: min,
     })._addCheck({
       type: "max",
       inclusive: true,
-      message: message || UTILS.LOCALE.between(min, max),
+      message:
+        message ||
+        t("VESO.NUMBER.between", { min, max }) ||
+        UTILS.DEFAULT_MESSAGE.between(min, max),
       value: max,
     });
   }
@@ -75,7 +88,8 @@ class VesoNumber {
       type: "min",
       inclusive: false,
       value: 0,
-      message: message || UTILS.LOCALE.positive,
+      message:
+        message || t("VESO.NUMBER.positive") || UTILS.DEFAULT_MESSAGE.positive,
     });
   }
 
@@ -84,7 +98,8 @@ class VesoNumber {
       type: "max",
       inclusive: false,
       value: 0,
-      message: message || UTILS.LOCALE.negative,
+      message:
+        message || t("VESO.NUMBER.negative") || UTILS.DEFAULT_MESSAGE.negative,
     });
   }
 
@@ -93,7 +108,10 @@ class VesoNumber {
       type: "max",
       inclusive: true,
       value: 0,
-      message: message || UTILS.LOCALE.nonpositive,
+      message:
+        message ||
+        t("VESO.NUMBER.nonpositive") ||
+        UTILS.DEFAULT_MESSAGE.nonpositive,
     });
   }
 
@@ -102,7 +120,10 @@ class VesoNumber {
       type: "min",
       inclusive: true,
       value: 0,
-      message: message || UTILS.LOCALE.nonnegative,
+      message:
+        message ||
+        t("VESO.NUMBER.nonnegative") ||
+        UTILS.DEFAULT_MESSAGE.nonnegative,
     });
   }
 
@@ -110,7 +131,10 @@ class VesoNumber {
     return this._addCheck({
       type: "multipleOf",
       value,
-      message: message || UTILS.LOCALE.multipleOf(value),
+      message:
+        message ||
+        t("VESO.NUMBER.multipleOf", { multipleOf: value }) ||
+        UTILS.DEFAULT_MESSAGE.multipleOf(value),
     });
   }
 
@@ -119,23 +143,26 @@ class VesoNumber {
       type: "min",
       inclusive: true,
       value: Number.MIN_SAFE_INTEGER,
-      message: message || UTILS.LOCALE.safe,
+      message: message || t("VESO.NUMBER.safe") || UTILS.DEFAULT_MESSAGE.safe,
     })._addCheck({
       type: "max",
       inclusive: true,
       value: Number.MAX_SAFE_INTEGER,
-      message: message || UTILS.LOCALE.safe,
+      message: message || t("VESO.NUMBER.safe") || UTILS.DEFAULT_MESSAGE.safe,
     });
   }
 
   public integer(message?: string) {
     return this._addCheck({
       type: "int",
-      message: message || UTILS.LOCALE.integer,
+      message:
+        message || t("VESO.NUMBER.integer") || UTILS.DEFAULT_MESSAGE.integer,
     });
   }
 
   public validate(value: any) {
+    this._validationIssue = null;
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)

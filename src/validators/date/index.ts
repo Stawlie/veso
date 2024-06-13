@@ -1,7 +1,7 @@
-import { VesoValueTypes, getValueType } from "../utils";
+import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
-class VesoDate {
+export class VesoDate {
   private _check: UTILS.VesoDateCheck[] = [];
   private _validationIssue: string | null = null;
 
@@ -20,15 +20,16 @@ class VesoDate {
   }
 
   private _addCheck(check: UTILS.VesoDateCheck) {
-    return new VesoDate({
-      check: [...this._check, check],
-    });
+    this._check.push(check);
+
+    return this;
   }
 
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message: message || UTILS.LOCALE.required,
+      message:
+        message || t("VESO.DATE.required") || UTILS.DEFAULT_MESSAGE.required,
     });
   }
 
@@ -36,7 +37,10 @@ class VesoDate {
     return this._addCheck({
       type: "min",
       value,
-      message: message || UTILS.LOCALE.min(value),
+      message:
+        message ||
+        t("VESO.DATE.min", { min: new Date(value) }) ||
+        UTILS.DEFAULT_MESSAGE.min(value),
     });
   }
 
@@ -44,7 +48,10 @@ class VesoDate {
     return this._addCheck({
       type: "max",
       value,
-      message: message || UTILS.LOCALE.max(value),
+      message:
+        message ||
+        t("VESO.DATE.max", { max: new Date(value) }) ||
+        UTILS.DEFAULT_MESSAGE.max(value),
     });
   }
 
@@ -59,16 +66,24 @@ class VesoDate {
 
     return this._addCheck({
       type: "min",
-      message: message || UTILS.LOCALE.between(min, max),
+      message:
+        message ||
+        t("VESO.DATE.between", { min: new Date(min), max: new Date(max) }) ||
+        UTILS.DEFAULT_MESSAGE.between(min, max),
       value: min,
     })._addCheck({
       type: "max",
-      message: message || UTILS.LOCALE.between(min, max),
+      message:
+        message ||
+        t("VESO.DATE.between", { min: new Date(min), max: new Date(max) }) ||
+        UTILS.DEFAULT_MESSAGE.between(min, max),
       value: max,
     });
   }
 
   public validate(value: any) {
+    this._validationIssue = null;
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)
