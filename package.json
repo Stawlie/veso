@@ -1,6 +1,6 @@
 {
   "name": "veso",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Simple, lightweight and typesafe chain validator!",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
@@ -20,6 +20,14 @@
     "typesafe",
     "rules"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stawlie/veso.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Stawlie/veso/issues"
+  },
+  "homepage": "https://github.com/Stawlie/veso#readme",
   "files": [
     "/lib",
     "/index.d.ts"

@@ -199,6 +199,26 @@ v.date().between(minDate | minNumber, maxDate | maxNumber); // >= minDate | minN
 
 Optionaly, you can pass in an additional argument to provide a custom error message.
 
+## Translation of errors
+
+You can pass in `translation function` to make your custom errors without providing messages to every validator every single time.
+
+```ts
+import { setTranslate } from "veso";
+
+function myTranslateFn(key: string, settings?: Record<string, unknown>) {
+  // Your translation logic
+}
+
+setTranslate(myTranslateFn);
+```
+
+The `key` is a constant value for each validator and the `settings` are the data you pass to the validator.
+
+Every `key` is named according the following structure: "VESO.{primitive in upper case}.{validator name}". Here's an example: For string validator "required" the key is "VESO.STRING.required".
+
+The best way to use this type of translation is with **i18n** library. You can pass the `t` function to `setTranslate` and thats it! It fully supports additional parameters to translation.
+
 ## Changelog
 
 In progress...
