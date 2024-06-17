@@ -156,6 +156,40 @@ export class VesoString {
     });
   }
 
+  public numeric(message?: string) {
+    return this._addCheck({
+      type: "regex",
+      message:
+        message || t("VESO.STRING.numeric") || UTILS.DEFAULT_MESSAGE.numeric,
+      value: UTILS.numericRegex,
+    });
+  }
+
+  public alpha(message?: string) {
+    return this._addCheck({
+      type: "regex",
+      message: message || t("VESO.STRING.alpha") || UTILS.DEFAULT_MESSAGE.alpha,
+      value: UTILS.alphaRegex,
+    });
+  }
+
+  public alphaNum(message?: string) {
+    return this._addCheck({
+      type: "regex",
+      message:
+        message || t("VESO.STRING.alphaNum") || UTILS.DEFAULT_MESSAGE.alphaNum,
+      value: UTILS.alphaNumRegex,
+    });
+  }
+
+  public hex(message?: string) {
+    return this._addCheck({
+      type: "regex",
+      message: message || t("VESO.STRING.hex") || UTILS.DEFAULT_MESSAGE.hex,
+      value: UTILS.hexRegex,
+    });
+  }
+
   public validate(value: any) {
     this._validationIssue = null;
 

@@ -99,6 +99,10 @@ v.string().mac("Invalid MAC!");
 v.string().email("Invalid email!");
 v.string().url("Invalid URL!");
 v.string().unique(3, "Must include minimum 3 unique characters!");
+v.string().numeric();
+v.string().alpha();
+v.string().alphaNum();
+v.string().hex();
 ```
 
 ### IP
@@ -154,6 +158,61 @@ url.validate("http://test.c"); // valid
 url.validate("https://test.c"); // valid
 url.validate("ftp://test.c"); // valid
 url.validate("htps://test.c"); // invalid
+```
+
+### Numeric
+
+Validates integers and decimals.
+
+```ts
+import { v } from "veso";
+
+const numeric = v.string().numeric();
+
+numeric.validate("10.33"); // valid
+numeric.validate("10."); // invalid
+numeric.validate("notanumber"); // invalid
+```
+
+### Alpha
+
+Validates only latin characters.
+
+```ts
+import { v } from "veso";
+
+const alpha = v.string().alpha();
+
+alpha.validate("test"); // valid
+alpha.validate("test123"); // invalid
+```
+
+### AlphaNum
+
+Validates latin characters and numbers.
+
+```ts
+import { v } from "veso";
+
+const alphaNum = v.string().alpha();
+
+alphaNum.validate("test"); // valid
+alphaNum.validate("test123"); // valid
+alphaNum.validate("test12.3"); // invalid
+```
+
+### Hex
+
+Validates hexadecimal characters.
+
+```ts
+import { v } from "veso";
+
+const hex = v.string().alpha();
+
+hex.validate("ab03"); // valid
+hex.validate("ffffff"); // valid
+hex.validate("abct"); // invalid
 ```
 
 ## Number Validator
@@ -221,4 +280,4 @@ The best way to use this type of translation is with **i18n** library. You can p
 
 ## Changelog
 
-In progress...
+View the changelog at [CHANGELOG.md](CHANGELOG.md)
