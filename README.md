@@ -47,21 +47,19 @@ validator.validate("str"); // => "The value must have more than or equal to 4 ch
 validator.validate(321); // => false (with console error 'String Validator: Type of the value must be valid! Current type: number')
 ```
 
-## Primitives
+## Validators
 
 ```ts
 import { v } from "veso";
 
-// primitives
+// validators
 v.string(); // => VesoString instance
 v.number(); // => VesoNumber instance
 v.array(); // => VesoArray instance
 v.date(); // => VesoDate instance
 ```
 
-**Important!** - There is no `coerce` in **veso** library!
-</br>
-**Important!!** - Without .required() values **null** and **undefined** `are valid`!
+**Important!** - Without .required() values **null** and **undefined** `are valid`!
 
 ## String Validator
 
@@ -261,6 +259,18 @@ v.date().between(minDate | minNumber, maxDate | maxNumber); // >= minDate | minN
 ```
 
 Optionaly, you can pass in an additional argument to provide a custom error message.
+
+## Coercion
+
+Veso provides `coercion`. During the validation, the value is passing through JavaScript built-in functions for coercing data.
+
+```ts
+import { v } from "veso";
+
+v.coerce.string(); // String(value)
+v.coerce.number(); // => Number(value)
+v.coerce.date(); // => new Date(value)
+```
 
 ## Translation of errors
 

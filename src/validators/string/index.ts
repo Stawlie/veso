@@ -2,21 +2,17 @@ import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
 export class VesoString {
-  private _check: UTILS.VesoStringCheck[] = [];
+  private _check: UTILS.VesoStringCheck[];
+  private _coerce: boolean;
   private _validationIssue: string | null = null;
 
   constructor(settings?: UTILS.VesoStringConstructor) {
-    if (!settings) {
-      return;
-    }
-
-    this._check = settings.check;
+    this._check = settings?.check || [];
+    this._coerce = settings?.coerce || false;
   }
 
-  static create() {
-    return new VesoString({
-      check: [],
-    });
+  static create(settings?: UTILS.VesoStringConstructor) {
+    return new VesoString(settings);
   }
 
   private _addCheck(check: UTILS.VesoStringCheck) {
@@ -193,6 +189,10 @@ export class VesoString {
   public validate(value: any) {
     this._validationIssue = null;
 
+    if (this._coerce) {
+      value = String(value);
+    }
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)
@@ -301,3 +301,6 @@ export class VesoString {
 }
 
 export const string = VesoString.create;
+
+export const coerceString = (arg?: UTILS.VesoStringConstructor) =>
+  VesoString.create({ ...arg, coerce: true });

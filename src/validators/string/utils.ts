@@ -46,7 +46,8 @@ export type VesoStringCheck =
   | { type: "unique"; value: number; message: string };
 
 export type VesoStringConstructor = {
-  check: VesoStringCheck[];
+  check?: VesoStringCheck[];
+  coerce?: boolean;
 };
 
 export type VesoIpTypes = "v4" | "v6";

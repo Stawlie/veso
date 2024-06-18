@@ -2,21 +2,17 @@ import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
 export class VesoDate {
-  private _check: UTILS.VesoDateCheck[] = [];
+  private _check: UTILS.VesoDateCheck[];
+  private _coerce: boolean;
   private _validationIssue: string | null = null;
 
   constructor(settings?: UTILS.VesoDateConstructor) {
-    if (!settings) {
-      return;
-    }
-
-    this._check = settings.check;
+    this._check = settings?.check || [];
+    this._coerce = settings?.coerce || false;
   }
 
-  static create() {
-    return new VesoDate({
-      check: [],
-    });
+  static create(settings?: UTILS.VesoDateConstructor) {
+    return new VesoDate(settings);
   }
 
   private _addCheck(check: UTILS.VesoDateCheck) {
@@ -84,6 +80,10 @@ export class VesoDate {
   public validate(value: any) {
     this._validationIssue = null;
 
+    if (this._coerce) {
+      value = new Date(value);
+    }
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)
@@ -147,3 +147,6 @@ export class VesoDate {
 }
 
 export const date = VesoDate.create;
+
+export const coerceDate = (arg?: UTILS.VesoDateConstructor) =>
+  VesoDate.create({ ...arg, coerce: true });

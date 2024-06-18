@@ -2,6 +2,18 @@
 
 ## Previous Releases
 
+### 1.0.0-alpha.5
+
+- Added `corecion` for `string`, `number` and `date` validators.
+
+```ts
+import { v } from "veso";
+
+v.coerce.string(); // => VesoString instance with corecion
+v.coerce.number(); // => VesoNumber instance with corecion
+v.coerce.date(); // => VesoDate instance with corecion
+```
+
 ### 1.0.0-alpha.4
 
 - Added String `numeric` validator.

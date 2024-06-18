@@ -1,11 +1,11 @@
 {
   "name": "veso",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "Simple, lightweight and typesafe chain validator!",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
-  "type": "module",
   "scripts": {
+    "dev": "nodemon lib/index.js",
     "clean": "npx rimraf lib",
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
     "test": "jest --config",

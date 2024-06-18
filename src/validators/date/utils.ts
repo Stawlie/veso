@@ -20,5 +20,6 @@ export type VesoDateCheck =
   | { type: "max"; value: Date | number; message: string };
 
 export type VesoDateConstructor = {
-  check: VesoDateCheck[];
+  check?: VesoDateCheck[];
+  coerce?: boolean;
 };

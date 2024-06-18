@@ -2,21 +2,17 @@ import { VesoValueTypes, getValueType, t } from "../utils";
 import * as UTILS from "./utils";
 
 export class VesoNumber {
-  private _check: UTILS.VesoNumberCheck[] = [];
+  private _check: UTILS.VesoNumberCheck[];
+  private _coerce: boolean;
   private _validationIssue: string | null = null;
 
   constructor(settings?: UTILS.VesoNumberConstructor) {
-    if (!settings) {
-      return;
-    }
-
-    this._check = settings.check;
+    this._check = settings?.check || [];
+    this._coerce = settings?.coerce || false;
   }
 
-  static create() {
-    return new VesoNumber({
-      check: [],
-    });
+  static create(settings?: UTILS.VesoNumberConstructor) {
+    return new VesoNumber(settings);
   }
 
   private _addCheck(check: UTILS.VesoNumberCheck) {
@@ -163,6 +159,10 @@ export class VesoNumber {
   public validate(value: any) {
     this._validationIssue = null;
 
+    if (this._coerce) {
+      value = Number(value);
+    }
+
     const valueType = getValueType(value);
 
     // Base type validation (null and undefined should be invalid only with "required" check)
@@ -244,3 +244,6 @@ export class VesoNumber {
 }
 
 export const number = VesoNumber.create;
+
+export const coerceNumber = (arg?: UTILS.VesoNumberConstructor) =>
+  VesoNumber.create({ ...arg, coerce: true });

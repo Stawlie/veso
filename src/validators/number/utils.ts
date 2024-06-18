@@ -39,5 +39,6 @@ export type VesoNumberCheck =
     };
 
 export type VesoNumberConstructor = {
-  check: VesoNumberCheck[];
+  check?: VesoNumberCheck[];
+  coerce?: boolean;
 };
