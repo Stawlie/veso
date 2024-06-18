@@ -80,6 +80,10 @@ v.string().mac();
 v.string().email();
 v.string().url();
 v.string().unique(number);
+v.string().numeric();
+v.string().alpha();
+v.string().alphaNum();
+v.string().hex();
 ```
 
 All validations support custom error message. You can pass in an additional argument to provide it.
@@ -99,10 +103,10 @@ v.string().mac("Invalid MAC!");
 v.string().email("Invalid email!");
 v.string().url("Invalid URL!");
 v.string().unique(3, "Must include minimum 3 unique characters!");
-v.string().numeric();
-v.string().alpha();
-v.string().alphaNum();
-v.string().hex();
+v.string().numeric("Must be a number!");
+v.string().alpha("Must include only letters!");
+v.string().alphaNum("Must include only letters and numbers!");
+v.string().hex("Must be hexadecimal!");
 ```
 
 ### IP
