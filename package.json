@@ -4,6 +4,7 @@
   "description": "Simple, lightweight and typesafe chain validator!",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
+  "type": "module",
   "scripts": {
     "dev": "nodemon lib/index.js",
     "clean": "npx rimraf lib",
