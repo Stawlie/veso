@@ -1,11 +1,13 @@
 export * from "./required";
 export * from "./minLength";
 export * from "./maxLength";
+export * from "./exactLength";
 export * from "./startsWith";
 export * from "./endsWith";
 export * from "./includes";
 export * from "./regex";
 export * from "./unique";
+export * from "./notIn";
 
 export const DEFAULT_MESSAGE = {
   required: "The value is required!",
@@ -30,6 +32,7 @@ export const DEFAULT_MESSAGE = {
   alpha: "The value must include only latin characters!",
   alphaNum: "The value must include only latin characters and numbers!",
   hex: "The value must include only hex characters!",
+  notIn: "The value is not allowed!",
 };
 
 export type VesoStringValueTypes = "string" | "null" | "undefined";
@@ -43,7 +46,8 @@ export type VesoStringCheck =
   | { type: "endsWith"; value: string; message: string }
   | { type: "includes"; value: string; position?: number; message: string }
   | { type: "regex"; value: RegExp; message: string }
-  | { type: "unique"; value: number; message: string };
+  | { type: "unique"; value: number; message: string }
+  | { type: "notIn"; value: string[]; message: string };
 
 export type VesoStringConstructor = {
   check?: VesoStringCheck[];

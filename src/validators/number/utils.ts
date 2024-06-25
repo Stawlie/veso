@@ -3,7 +3,7 @@ export * from "./int";
 export * from "./min";
 export * from "./max";
 export * from "./multipleOf";
-export * from "./utils";
+export * from "./notIn";
 
 export const DEFAULT_MESSAGE = {
   required: "The value is required!",
@@ -17,6 +17,7 @@ export const DEFAULT_MESSAGE = {
   multipleOf: (value: number) => `Must be a multiple of ${value}!`,
   safe: "Must be safe!",
   integer: "Must be an integer!",
+  notIn: "The value is not allowed!",
 };
 
 export type VesoNumberValueTypes = "number" | "null" | "undefined";
@@ -36,7 +37,8 @@ export type VesoNumberCheck =
       value: number;
       inclusive: boolean;
       message: string;
-    };
+    }
+  | { type: "notIn"; value: number[]; message: string };
 
 export type VesoNumberConstructor = {
   check?: VesoNumberCheck[];

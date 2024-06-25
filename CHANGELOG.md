@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.0.0-alpha.6
+
+- Added String, Number and Date `notIn` validator.
+
+```ts
+import { v } from "veso";
+
+const notIn = v.string().notIn(["test1", "test2"]);
+
+notIn.validate("somestring"); // => true
+notIn.validate("test1"); // => "The value is not allowed!"
+notIn.validate("test2"); // => "The value is not allowed!"
+```
+
+```ts
+import { v } from "veso";
+
+const notIn = v.number().notIn([1, 2]);
+
+notIn.validate(3); // => true
+notIn.validate(1); // => "The value is not allowed!"
+notIn.validate(2); // => "The value is not allowed!"
+```
+
+```ts
+import { v } from "veso";
+
+const notIn = v.date().notIn([new Date(10), new Date(100)]);
+
+notIn.validate(new Date(1)); // => true
+notIn.validate(new Date(10)); // => "The value is not allowed!"
+notIn.validate(new Date(100)); // => "The value is not allowed!"
+```
+
 ## Previous Releases
 
 ### 1.0.0-alpha.5

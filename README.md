@@ -82,6 +82,7 @@ v.string().numeric();
 v.string().alpha();
 v.string().alphaNum();
 v.string().hex();
+v.string().notIn(string[]);
 ```
 
 All validations support custom error message. You can pass in an additional argument to provide it.
@@ -105,6 +106,7 @@ v.string().numeric("Must be a number!");
 v.string().alpha("Must include only letters!");
 v.string().alphaNum("Must include only letters and numbers!");
 v.string().hex("Must be hexadecimal!");
+v.string().notIn(["foo", "bar"], "There shouldn't be 'foo' or 'bar'!");
 ```
 
 ### IP
@@ -232,6 +234,7 @@ v.number().nonnegative(); // >= 0
 v.number().multipleOf(number); // Evenly devisible by number. Can be used as "step"
 v.number().safe(); // Value must be between Number.MIN_SAFE_INTEGER and Number.MAX_SAFE_INTEGER
 v.number().integer(); // Value must be integer
+v.number().notIn(number[]); // Value must not be in an array
 ```
 
 Optionaly, you can pass in an additional argument to provide a custom error message.
@@ -256,6 +259,7 @@ v.date().required();
 v.date().min(Date | number); // >= Date | number
 v.date().max(Date | number); // <= Date | number
 v.date().between(minDate | minNumber, maxDate | maxNumber); // >= minDate | minNumber and <= maxDate | maxNumber
+v.date().notIn(Date[]); // Value must not be in an array
 ```
 
 Optionaly, you can pass in an additional argument to provide a custom error message.

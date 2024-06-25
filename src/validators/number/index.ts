@@ -156,6 +156,17 @@ export class VesoNumber {
     });
   }
 
+  public notIn(value: number[], message?: string) {
+    return this._addCheck({
+      type: "notIn",
+      message:
+        message ||
+        t("VESO.NUMBER.notIn", { notIn: value }) ||
+        UTILS.DEFAULT_MESSAGE.notIn,
+      value,
+    });
+  }
+
   public validate(value: any) {
     this._validationIssue = null;
 
@@ -221,6 +232,15 @@ export class VesoNumber {
 
         case "multipleOf": {
           if (UTILS.multipleOf(value, valueType, check.value)) {
+            break;
+          }
+
+          this._validationIssue = check.message;
+          break loop;
+        }
+
+        case "notIn": {
+          if (UTILS.notIn(value, valueType, check.value)) {
             break;
           }
 

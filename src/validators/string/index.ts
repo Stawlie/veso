@@ -186,6 +186,17 @@ export class VesoString {
     });
   }
 
+  public notIn(value: string[], message?: string) {
+    return this._addCheck({
+      type: "notIn",
+      message:
+        message ||
+        t("VESO.STRING.notIn", { notIn: value }) ||
+        UTILS.DEFAULT_MESSAGE.notIn,
+      value,
+    });
+  }
+
   public validate(value: any) {
     this._validationIssue = null;
 
@@ -240,6 +251,15 @@ export class VesoString {
           break loop;
         }
 
+        case "exactLength": {
+          if (UTILS.exactLength(value, valueType, check.value)) {
+            break;
+          }
+
+          this._validationIssue = check.message;
+          break loop;
+        }
+
         case "startsWith": {
           if (UTILS.startsWith(value, valueType, check.value)) {
             break;
@@ -278,6 +298,15 @@ export class VesoString {
 
         case "unique": {
           if (UTILS.unique(value, valueType, check.value)) {
+            break;
+          }
+
+          this._validationIssue = check.message;
+          break loop;
+        }
+
+        case "notIn": {
+          if (UTILS.notIn(value, valueType, check.value)) {
             break;
           }
 

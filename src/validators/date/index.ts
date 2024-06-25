@@ -77,6 +77,17 @@ export class VesoDate {
     });
   }
 
+  public notIn(value: Date[], message?: string) {
+    return this._addCheck({
+      type: "notIn",
+      message:
+        message ||
+        t("VESO.DATE.notIn", { notIn: value }) ||
+        UTILS.DEFAULT_MESSAGE.notIn,
+      value,
+    });
+  }
+
   public validate(value: any) {
     this._validationIssue = null;
 
@@ -124,6 +135,15 @@ export class VesoDate {
 
         case "max": {
           if (UTILS.max(value, valueType, check.value)) {
+            break;
+          }
+
+          this._validationIssue = check.message;
+          break loop;
+        }
+
+        case "notIn": {
+          if (UTILS.notIn(value, valueType, check.value)) {
             break;
           }
 
