@@ -1,4 +1,5 @@
 import { translate } from "./translate";
+import { VesoTranslateKey } from "./translate/utils";
 
 export const VesoValueTypes = {
   string: "string",
@@ -77,7 +78,7 @@ export function getValueType(value: any): VesoValueTypes {
   }
 }
 
-export function t(key: string, data?: Record<string, any>) {
+export function t(key: VesoTranslateKey, data?: Record<string, any>) {
   if (!translate) {
     return null;
   }
