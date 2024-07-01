@@ -29,80 +29,80 @@ export class VesoString {
     });
   }
 
-  public minLength(value: number, message?: string) {
+  public minLength(minLength: number, message?: string) {
     return this._addCheck({
       type: "minLength",
       message:
         message ||
-        t("VESO.STRING.minLength", { minLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.minLength(value),
-      value,
+        t("VESO.STRING.minLength", { minLength }) ||
+        UTILS.DEFAULT_MESSAGE.minLength(minLength),
+      value: minLength,
     });
   }
 
-  public maxLength(value: number, message?: string) {
+  public maxLength(maxLength: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
       message:
         message ||
-        t("VESO.STRING.maxLength", { maxLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.maxLength(value),
-      value,
+        t("VESO.STRING.maxLength", { maxLength }) ||
+        UTILS.DEFAULT_MESSAGE.maxLength(maxLength),
+      value: maxLength,
     });
   }
 
-  public exactLength(value: number, message?: string) {
+  public exactLength(exactLength: number, message?: string) {
     return this._addCheck({
       type: "exactLength",
       message:
         message ||
-        t("VESO.STRING.exactLength", { exactLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.exactLength(value),
-      value,
+        t("VESO.STRING.exactLength", { exactLength }) ||
+        UTILS.DEFAULT_MESSAGE.exactLength(exactLength),
+      value: exactLength,
     });
   }
 
-  public startsWith(value: string, message?: string) {
+  public startsWith(startsWith: string, message?: string) {
     return this._addCheck({
       type: "startsWith",
       message:
         message ||
-        t("VESO.STRING.startsWith", { startsWith: value }) ||
-        UTILS.DEFAULT_MESSAGE.startsWith(value),
-      value,
+        t("VESO.STRING.startsWith", { startsWith }) ||
+        UTILS.DEFAULT_MESSAGE.startsWith(startsWith),
+      value: startsWith,
     });
   }
 
-  public endsWith(value: string, message?: string) {
+  public endsWith(endsWith: string, message?: string) {
     return this._addCheck({
       type: "endsWith",
       message:
         message ||
-        t("VESO.STRING.endsWith", { endsWith: value }) ||
-        UTILS.DEFAULT_MESSAGE.endsWith(value),
-      value,
+        t("VESO.STRING.endsWith", { endsWith }) ||
+        UTILS.DEFAULT_MESSAGE.endsWith(endsWith),
+      value: endsWith,
     });
   }
 
-  public includes(value: string, message?: string) {
+  public includes(includes: string, message?: string) {
     return this._addCheck({
       type: "includes",
       message:
         message ||
-        t("VESO.STRING.includes", { includes: value }) ||
-        UTILS.DEFAULT_MESSAGE.includes(value),
-      value,
+        t("VESO.STRING.includes", { includes }) ||
+        UTILS.DEFAULT_MESSAGE.includes(includes),
+      value: includes,
     });
   }
 
-  public regex(value: RegExp, message?: string) {
+  public regex(regex: RegExp, message?: string) {
     return this._addCheck({
       type: "regex",
       message:
         message ||
-        t("VESO.STRING.regex", { regex: value }) ||
-        UTILS.DEFAULT_MESSAGE.regex(value),
-      value,
+        t("VESO.STRING.regex", { regex }) ||
+        UTILS.DEFAULT_MESSAGE.regex(regex),
+      value: regex,
     });
   }
 
@@ -111,7 +111,7 @@ export class VesoString {
       type: "regex",
       message:
         message ||
-        t("VESO.STRING.ip", { ip: ipType }) ||
+        t("VESO.STRING.ip", { ipType }) ||
         UTILS.DEFAULT_MESSAGE.ip(ipType),
       value: ipType === "v4" ? UTILS.v4Regex : UTILS.v6Regex,
     });
@@ -141,14 +141,14 @@ export class VesoString {
     });
   }
 
-  public unique(value: number, message?: string) {
+  public unique(unique: number, message?: string) {
     return this._addCheck({
       type: "unique",
       message:
         message ||
         t("VESO.STRING.unique") ||
-        UTILS.DEFAULT_MESSAGE.unique(value),
-      value,
+        UTILS.DEFAULT_MESSAGE.unique(unique),
+      value: unique,
     });
   }
 
@@ -186,14 +186,14 @@ export class VesoString {
     });
   }
 
-  public notIn(value: string[], message?: string) {
+  public notIn(notIn: string[], message?: string) {
     return this._addCheck({
       type: "notIn",
       message:
         message ||
-        t("VESO.STRING.notIn", { notIn: value }) ||
+        t("VESO.STRING.notIn", { notIn }) ||
         UTILS.DEFAULT_MESSAGE.notIn,
-      value,
+      value: notIn,
     });
   }
 

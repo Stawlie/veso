@@ -5,11 +5,6 @@ import { array, VesoArray } from "./array";
 
 export { setTranslate } from "./translate";
 export type VesoValidator = VesoString | VesoNumber | VesoArray | VesoDate;
-export type VesoValidatorType =
-  | typeof VesoString
-  | typeof VesoNumber
-  | typeof VesoArray
-  | typeof VesoDate;
 
 export { string, number, array, date };
 

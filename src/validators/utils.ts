@@ -1,3 +1,7 @@
+import { VesoArray } from "./array";
+import { VesoDate } from "./date";
+import { VesoNumber } from "./number";
+import { VesoString } from "./string";
 import { translate } from "./translate";
 import { VesoTranslateKey } from "./translate/utils";
 
@@ -77,6 +81,27 @@ export function getValueType(value: any): VesoValueTypes {
       return VesoValueTypes.unknown;
   }
 }
+
+type VesoValidatorMethod<
+  T extends
+    | typeof VesoString
+    | typeof VesoNumber
+    | typeof VesoArray
+    | typeof VesoDate
+> = {
+  [TKey in keyof T["prototype"]]: TKey extends "validate" ? never : TKey;
+}[keyof T["prototype"]];
+
+export type VesoRecord = {
+  STRING: VesoValidatorMethod<typeof VesoString>;
+  NUMBER: VesoValidatorMethod<typeof VesoNumber>;
+  DATE: VesoValidatorMethod<typeof VesoDate>;
+  ARRAY: VesoValidatorMethod<typeof VesoArray>;
+};
+
+export type VesoValidatorName = {
+  [TKey in keyof VesoRecord]: TKey;
+}[keyof VesoRecord];
 
 export function t(key: VesoTranslateKey, data?: Record<string, any>) {
   if (!translate) {
