@@ -5,21 +5,6 @@ export * from "./max";
 export * from "./multipleOf";
 export * from "./notIn";
 
-export const DEFAULT_MESSAGE = {
-  required: "The value is required!",
-  min: (value: number) => `Must be greater than or equal to ${value}!`,
-  max: (value: number) => `Must be less than or equal to ${value}!`,
-  between: (min: number, max: number) => `Must be between ${min} and ${max}!`,
-  positive: "Must be positive!",
-  negative: "Must be negative!",
-  nonpositive: "Must be non-positive!",
-  nonnegative: "Must be non-negative!",
-  multipleOf: (value: number) => `Must be a multiple of ${value}!`,
-  safe: "Must be safe!",
-  integer: "Must be an integer!",
-  notIn: "The value is not allowed!",
-};
-
 export type VesoNumberValueTypes = "number" | "null" | "undefined";
 
 export type VesoNumberCheck =

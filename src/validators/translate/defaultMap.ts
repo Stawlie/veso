@@ -1,6 +1,6 @@
 import { VesoMap } from "./utils";
 
-export const DEFAULT: VesoMap = {
+export const DEFAULT_MAP = {
   STRING: {
     required: "The value is required!",
     minLength:
@@ -50,4 +50,4 @@ export const DEFAULT: VesoMap = {
     between: "The value must be between {min} and {max}!",
     notIn: "The value is not allowed!",
   },
-};
+} satisfies VesoMap;

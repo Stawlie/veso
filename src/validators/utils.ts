@@ -2,8 +2,6 @@ import { VesoArray } from "./array";
 import { VesoDate } from "./date";
 import { VesoNumber } from "./number";
 import { VesoString } from "./string";
-import { translate } from "./translate";
-import { VesoTranslateKey } from "./translate/utils";
 
 export const VesoValueTypes = {
   string: "string",
@@ -102,11 +100,3 @@ export type VesoRecord = {
 export type VesoValidatorName = {
   [TKey in keyof VesoRecord]: TKey;
 }[keyof VesoRecord];
-
-export function t(key: VesoTranslateKey, data?: Record<string, any>) {
-  if (!translate) {
-    return null;
-  }
-
-  return translate(key, data);
-}

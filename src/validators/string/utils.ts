@@ -9,32 +9,6 @@ export * from "./regex";
 export * from "./unique";
 export * from "./notIn";
 
-export const DEFAULT_MESSAGE = {
-  required: "The value is required!",
-  minLength: (value: number) =>
-    `The value must have more than or equal to ${value} characters!`,
-
-  maxLength: (value: number) =>
-    `The value must have less than or equal to ${value} characters!`,
-  exactLength: (value: number) =>
-    `The value must have exactly ${value} characters!`,
-  startsWith: (value: string) => `The value must start with ${value}!`,
-  endsWith: (value: string) => `The value must end with ${value}!`,
-  includes: (value: string) => `The value must include ${value}!`,
-  regex: (value: RegExp) => `The value must match ${value}!`,
-  ip: (ipType: VesoIpTypes) => `The value must be a IP${ipType}!`,
-  mac: "The value must be a MAC address!",
-  email: "The value must be an email!",
-  url: "The value must be a URL!",
-  unique: (value: number) =>
-    `The value must contain at least ${value} unique characters!`,
-  numeric: "The value must be a number!",
-  alpha: "The value must include only latin characters!",
-  alphaNum: "The value must include only latin characters and numbers!",
-  hex: "The value must include only hex characters!",
-  notIn: "The value is not allowed!",
-};
-
 export type VesoStringValueTypes = "string" | "null" | "undefined";
 
 export type VesoStringCheck =

@@ -1,4 +1,5 @@
-import { VesoValueTypes, getValueType, t } from "../utils";
+import { VesoValueTypes, getValueType } from "../utils";
+import { useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoDate {
@@ -24,67 +25,72 @@ export class VesoDate {
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message:
-        message || t("VESO.DATE.required") || UTILS.DEFAULT_MESSAGE.required,
+      message: useTranslate({
+        name: "DATE",
+        method: "required",
+        message,
+      }),
     });
   }
 
-  public min(value: number, message?: string) {
+  public min(min: number, message?: string) {
     return this._addCheck({
       type: "min",
-      value,
-      message:
-        message ||
-        t("VESO.DATE.min", { min: new Date(value) }) ||
-        UTILS.DEFAULT_MESSAGE.min(value),
-    });
-  }
-
-  public max(value: number, message?: string) {
-    return this._addCheck({
-      type: "max",
-      value,
-      message:
-        message ||
-        t("VESO.DATE.max", { max: new Date(value) }) ||
-        UTILS.DEFAULT_MESSAGE.max(value),
-    });
-  }
-
-  public between(min: number, max: number, message?: string) {
-    if (min > max) {
-      console.warn(
-        `Date Validator: Min(${new Date(
-          min
-        )}) should be less or equal than Max(${new Date(max)})!`
-      );
-    }
-
-    return this._addCheck({
-      type: "min",
-      message:
-        message ||
-        t("VESO.DATE.between", { min: new Date(min), max: new Date(max) }) ||
-        UTILS.DEFAULT_MESSAGE.between(min, max),
+      message: useTranslate({
+        name: "DATE",
+        method: "min",
+        data: { min },
+        message,
+      }),
       value: min,
-    })._addCheck({
+    });
+  }
+
+  public max(max: number, message?: string) {
+    return this._addCheck({
       type: "max",
-      message:
-        message ||
-        t("VESO.DATE.between", { min: new Date(min), max: new Date(max) }) ||
-        UTILS.DEFAULT_MESSAGE.between(min, max),
+      message: useTranslate({
+        name: "DATE",
+        method: "max",
+        data: { max },
+        message,
+      }),
       value: max,
     });
   }
 
-  public notIn(value: Date[], message?: string) {
+  public between(min: number, max: number, message?: string) {
+    return this._addCheck({
+      type: "min",
+      message: useTranslate({
+        name: "DATE",
+        method: "between",
+        data: { min, max },
+        message,
+      }),
+      value: min,
+    })._addCheck({
+      type: "max",
+      message: useTranslate({
+        name: "DATE",
+        method: "between",
+        data: { min, max },
+        message,
+      }),
+      value: max,
+    });
+  }
+
+  public notIn(notIn: Date[], message?: string) {
     return this._addCheck({
       type: "notIn",
-      message:
-        message ||
-        t("VESO.DATE.notIn", { notIn: value }) ||
-        UTILS.DEFAULT_MESSAGE.notIn,
-      value,
+      message: useTranslate({
+        name: "DATE",
+        method: "notIn",
+        data: { notIn },
+        message,
+      }),
+      value: notIn,
     });
   }
 

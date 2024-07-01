@@ -1,4 +1,5 @@
-import { VesoValueTypes, getValueType, t } from "../utils";
+import { VesoValueTypes, getValueType } from "../utils";
+import { useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoString {
@@ -24,18 +25,23 @@ export class VesoString {
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message:
-        message || t("VESO.STRING.required") || UTILS.DEFAULT_MESSAGE.required,
+      message: useTranslate({
+        name: "STRING",
+        method: "required",
+        message,
+      }),
     });
   }
 
   public minLength(minLength: number, message?: string) {
     return this._addCheck({
       type: "minLength",
-      message:
-        message ||
-        t("VESO.STRING.minLength", { minLength }) ||
-        UTILS.DEFAULT_MESSAGE.minLength(minLength),
+      message: useTranslate({
+        name: "STRING",
+        method: "minLength",
+        data: { minLength },
+        message,
+      }),
       value: minLength,
     });
   }
@@ -43,10 +49,12 @@ export class VesoString {
   public maxLength(maxLength: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
-      message:
-        message ||
-        t("VESO.STRING.maxLength", { maxLength }) ||
-        UTILS.DEFAULT_MESSAGE.maxLength(maxLength),
+      message: useTranslate({
+        name: "STRING",
+        method: "maxLength",
+        data: { maxLength },
+        message,
+      }),
       value: maxLength,
     });
   }
@@ -54,10 +62,12 @@ export class VesoString {
   public exactLength(exactLength: number, message?: string) {
     return this._addCheck({
       type: "exactLength",
-      message:
-        message ||
-        t("VESO.STRING.exactLength", { exactLength }) ||
-        UTILS.DEFAULT_MESSAGE.exactLength(exactLength),
+      message: useTranslate({
+        name: "STRING",
+        method: "exactLength",
+        data: { exactLength },
+        message,
+      }),
       value: exactLength,
     });
   }
@@ -65,10 +75,12 @@ export class VesoString {
   public startsWith(startsWith: string, message?: string) {
     return this._addCheck({
       type: "startsWith",
-      message:
-        message ||
-        t("VESO.STRING.startsWith", { startsWith }) ||
-        UTILS.DEFAULT_MESSAGE.startsWith(startsWith),
+      message: useTranslate({
+        name: "STRING",
+        method: "startsWith",
+        data: { startsWith },
+        message,
+      }),
       value: startsWith,
     });
   }
@@ -76,10 +88,12 @@ export class VesoString {
   public endsWith(endsWith: string, message?: string) {
     return this._addCheck({
       type: "endsWith",
-      message:
-        message ||
-        t("VESO.STRING.endsWith", { endsWith }) ||
-        UTILS.DEFAULT_MESSAGE.endsWith(endsWith),
+      message: useTranslate({
+        name: "STRING",
+        method: "endsWith",
+        data: { endsWith },
+        message,
+      }),
       value: endsWith,
     });
   }
@@ -87,10 +101,12 @@ export class VesoString {
   public includes(includes: string, message?: string) {
     return this._addCheck({
       type: "includes",
-      message:
-        message ||
-        t("VESO.STRING.includes", { includes }) ||
-        UTILS.DEFAULT_MESSAGE.includes(includes),
+      message: useTranslate({
+        name: "STRING",
+        method: "includes",
+        data: { includes },
+        message,
+      }),
       value: includes,
     });
   }
@@ -98,29 +114,37 @@ export class VesoString {
   public regex(regex: RegExp, message?: string) {
     return this._addCheck({
       type: "regex",
-      message:
-        message ||
-        t("VESO.STRING.regex", { regex }) ||
-        UTILS.DEFAULT_MESSAGE.regex(regex),
+      message: useTranslate({
+        name: "STRING",
+        method: "regex",
+        data: { regex },
+        message,
+      }),
       value: regex,
     });
   }
 
-  public ip(ipType: UTILS.VesoIpTypes = "v4", message?: string) {
+  public ip(ip: UTILS.VesoIpTypes = "v4", message?: string) {
     return this._addCheck({
       type: "regex",
-      message:
-        message ||
-        t("VESO.STRING.ip", { ipType }) ||
-        UTILS.DEFAULT_MESSAGE.ip(ipType),
-      value: ipType === "v4" ? UTILS.v4Regex : UTILS.v6Regex,
+      message: useTranslate({
+        name: "STRING",
+        method: "ip",
+        data: { ip },
+        message,
+      }),
+      value: ip === "v4" ? UTILS.v4Regex : UTILS.v6Regex,
     });
   }
 
   public mac(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || t("VESO.STRING.mac") || UTILS.DEFAULT_MESSAGE.mac,
+      message: useTranslate({
+        name: "STRING",
+        method: "mac",
+        message,
+      }),
       value: UTILS.macRegex,
     });
   }
@@ -128,7 +152,11 @@ export class VesoString {
   public email(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || t("VESO.STRING.email") || UTILS.DEFAULT_MESSAGE.email,
+      message: useTranslate({
+        name: "STRING",
+        method: "email",
+        message,
+      }),
       value: UTILS.emailRegex,
     });
   }
@@ -136,7 +164,11 @@ export class VesoString {
   public url(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || t("VESO.STRING.url") || UTILS.DEFAULT_MESSAGE.url,
+      message: useTranslate({
+        name: "STRING",
+        method: "url",
+        message,
+      }),
       value: UTILS.urlRegex,
     });
   }
@@ -144,10 +176,12 @@ export class VesoString {
   public unique(unique: number, message?: string) {
     return this._addCheck({
       type: "unique",
-      message:
-        message ||
-        t("VESO.STRING.unique") ||
-        UTILS.DEFAULT_MESSAGE.unique(unique),
+      message: useTranslate({
+        name: "STRING",
+        method: "unique",
+        data: { unique },
+        message,
+      }),
       value: unique,
     });
   }
@@ -155,8 +189,11 @@ export class VesoString {
   public numeric(message?: string) {
     return this._addCheck({
       type: "regex",
-      message:
-        message || t("VESO.STRING.numeric") || UTILS.DEFAULT_MESSAGE.numeric,
+      message: useTranslate({
+        name: "STRING",
+        method: "numeric",
+        message,
+      }),
       value: UTILS.numericRegex,
     });
   }
@@ -164,7 +201,11 @@ export class VesoString {
   public alpha(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || t("VESO.STRING.alpha") || UTILS.DEFAULT_MESSAGE.alpha,
+      message: useTranslate({
+        name: "STRING",
+        method: "alpha",
+        message,
+      }),
       value: UTILS.alphaRegex,
     });
   }
@@ -172,8 +213,11 @@ export class VesoString {
   public alphaNum(message?: string) {
     return this._addCheck({
       type: "regex",
-      message:
-        message || t("VESO.STRING.alphaNum") || UTILS.DEFAULT_MESSAGE.alphaNum,
+      message: useTranslate({
+        name: "STRING",
+        method: "alphaNum",
+        message,
+      }),
       value: UTILS.alphaNumRegex,
     });
   }
@@ -181,7 +225,11 @@ export class VesoString {
   public hex(message?: string) {
     return this._addCheck({
       type: "regex",
-      message: message || t("VESO.STRING.hex") || UTILS.DEFAULT_MESSAGE.hex,
+      message: useTranslate({
+        name: "STRING",
+        method: "hex",
+        message,
+      }),
       value: UTILS.hexRegex,
     });
   }
@@ -189,10 +237,12 @@ export class VesoString {
   public notIn(notIn: string[], message?: string) {
     return this._addCheck({
       type: "notIn",
-      message:
-        message ||
-        t("VESO.STRING.notIn", { notIn }) ||
-        UTILS.DEFAULT_MESSAGE.notIn,
+      message: useTranslate({
+        name: "STRING",
+        method: "notIn",
+        data: { notIn },
+        message,
+      }),
       value: notIn,
     });
   }

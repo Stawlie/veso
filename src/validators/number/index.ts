@@ -1,4 +1,5 @@
-import { VesoValueTypes, getValueType, t } from "../utils";
+import { VesoValueTypes, getValueType } from "../utils";
+import { useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoNumber {
@@ -24,57 +25,62 @@ export class VesoNumber {
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message:
-        message || t("VESO.NUMBER.required") || UTILS.DEFAULT_MESSAGE.required,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "required",
+        message,
+      }),
     });
   }
 
-  public min(value: number, message?: string) {
+  public min(min: number, message?: string) {
     return this._addCheck({
       type: "min",
       inclusive: true,
-      value,
-      message:
-        message ||
-        t("VESO.NUMBER.min", { min: value }) ||
-        UTILS.DEFAULT_MESSAGE.min(value),
+      message: useTranslate({
+        name: "NUMBER",
+        method: "min",
+        data: { min },
+        message,
+      }),
+      value: min,
     });
   }
 
-  public max(value: number, message?: string) {
+  public max(max: number, message?: string) {
     return this._addCheck({
       type: "max",
       inclusive: true,
-      value,
-      message:
-        message ||
-        t("VESO.NUMBER.max", { max: value }) ||
-        UTILS.DEFAULT_MESSAGE.max(value),
+      message: useTranslate({
+        name: "NUMBER",
+        method: "max",
+        data: { max },
+        message,
+      }),
+      value: max,
     });
   }
 
   public between(min: number, max: number, message?: string) {
-    if (min > max) {
-      console.warn(
-        `Number Validator: Min(${min}) should be less or equal than Max(${max})!`
-      );
-    }
-
     return this._addCheck({
       type: "min",
       inclusive: true,
-      message:
-        message ||
-        t("VESO.NUMBER.between", { min, max }) ||
-        UTILS.DEFAULT_MESSAGE.between(min, max),
+      message: useTranslate({
+        name: "NUMBER",
+        method: "between",
+        data: { min, max },
+        message,
+      }),
       value: min,
     })._addCheck({
       type: "max",
       inclusive: true,
-      message:
-        message ||
-        t("VESO.NUMBER.between", { min, max }) ||
-        UTILS.DEFAULT_MESSAGE.between(min, max),
+      message: useTranslate({
+        name: "NUMBER",
+        method: "between",
+        data: { min, max },
+        message,
+      }),
       value: max,
     });
   }
@@ -83,9 +89,12 @@ export class VesoNumber {
     return this._addCheck({
       type: "min",
       inclusive: false,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "positive",
+        message,
+      }),
       value: 0,
-      message:
-        message || t("VESO.NUMBER.positive") || UTILS.DEFAULT_MESSAGE.positive,
     });
   }
 
@@ -93,9 +102,12 @@ export class VesoNumber {
     return this._addCheck({
       type: "max",
       inclusive: false,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "negative",
+        message,
+      }),
       value: 0,
-      message:
-        message || t("VESO.NUMBER.negative") || UTILS.DEFAULT_MESSAGE.negative,
     });
   }
 
@@ -104,10 +116,11 @@ export class VesoNumber {
       type: "max",
       inclusive: true,
       value: 0,
-      message:
-        message ||
-        t("VESO.NUMBER.nonpositive") ||
-        UTILS.DEFAULT_MESSAGE.nonpositive,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "nonpositive",
+        message,
+      }),
     });
   }
 
@@ -115,22 +128,25 @@ export class VesoNumber {
     return this._addCheck({
       type: "min",
       inclusive: true,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "nonnegative",
+        message,
+      }),
       value: 0,
-      message:
-        message ||
-        t("VESO.NUMBER.nonnegative") ||
-        UTILS.DEFAULT_MESSAGE.nonnegative,
     });
   }
 
-  public multipleOf(value: number, message?: string) {
+  public multipleOf(multipleOf: number, message?: string) {
     return this._addCheck({
       type: "multipleOf",
-      value,
-      message:
-        message ||
-        t("VESO.NUMBER.multipleOf", { multipleOf: value }) ||
-        UTILS.DEFAULT_MESSAGE.multipleOf(value),
+      message: useTranslate({
+        name: "NUMBER",
+        method: "nonnegative",
+        data: { multipleOf },
+        message,
+      }),
+      value: multipleOf,
     });
   }
 
@@ -138,32 +154,45 @@ export class VesoNumber {
     return this._addCheck({
       type: "min",
       inclusive: true,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "safe",
+        message,
+      }),
       value: Number.MIN_SAFE_INTEGER,
-      message: message || t("VESO.NUMBER.safe") || UTILS.DEFAULT_MESSAGE.safe,
     })._addCheck({
       type: "max",
       inclusive: true,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "safe",
+        message,
+      }),
       value: Number.MAX_SAFE_INTEGER,
-      message: message || t("VESO.NUMBER.safe") || UTILS.DEFAULT_MESSAGE.safe,
     });
   }
 
   public integer(message?: string) {
     return this._addCheck({
       type: "int",
-      message:
-        message || t("VESO.NUMBER.integer") || UTILS.DEFAULT_MESSAGE.integer,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "integer",
+        message,
+      }),
     });
   }
 
-  public notIn(value: number[], message?: string) {
+  public notIn(notIn: number[], message?: string) {
     return this._addCheck({
       type: "notIn",
-      message:
-        message ||
-        t("VESO.NUMBER.notIn", { notIn: value }) ||
-        UTILS.DEFAULT_MESSAGE.notIn,
-      value,
+      message: useTranslate({
+        name: "NUMBER",
+        method: "notIn",
+        data: { notIn },
+        message,
+      }),
+      value: notIn,
     });
   }
 

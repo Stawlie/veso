@@ -1,4 +1,5 @@
-import { VesoValueTypes, getValueType, t } from "../utils";
+import { VesoValueTypes, getValueType } from "../utils";
+import { useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoArray {
@@ -28,41 +29,50 @@ export class VesoArray {
   public required(message?: string) {
     return this._addCheck({
       type: "required",
-      message:
-        message || t("VESO.ARRAY.required") || UTILS.DEFAULT_MESSAGE.required,
+      message: useTranslate({
+        name: "ARRAY",
+        method: "required",
+        message,
+      }),
     });
   }
 
-  public minLength(value: number, message?: string) {
+  public minLength(minLength: number, message?: string) {
     return this._addCheck({
       type: "minLength",
-      message:
-        message ||
-        t("VESO.ARRAY.minLength", { minLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.minLength(value),
-      value,
+      message: useTranslate({
+        name: "ARRAY",
+        method: "minLength",
+        data: { minLength },
+        message,
+      }),
+      value: minLength,
     });
   }
 
-  public maxLength(value: number, message?: string) {
+  public maxLength(maxLength: number, message?: string) {
     return this._addCheck({
       type: "maxLength",
-      message:
-        message ||
-        t("VESO.ARRAY.maxLength", { maxLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.maxLength(value),
-      value,
+      message: useTranslate({
+        name: "ARRAY",
+        method: "maxLength",
+        data: { maxLength },
+        message,
+      }),
+      value: maxLength,
     });
   }
 
-  public exactLength(value: number, message?: string) {
+  public exactLength(exactLength: number, message?: string) {
     return this._addCheck({
       type: "exactLength",
-      message:
-        message ||
-        t("VESO.ARRAY.exactLength", { exactLength: value }) ||
-        UTILS.DEFAULT_MESSAGE.exactLength(value),
-      value,
+      message: useTranslate({
+        name: "ARRAY",
+        method: "exactLength",
+        data: { exactLength },
+        message,
+      }),
+      value: exactLength,
     });
   }
 

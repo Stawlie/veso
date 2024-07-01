@@ -8,7 +8,7 @@ export type VesoTranslateKey =
 
 export type VesoTranslateFunction<T = string> = (
   key: VesoTranslateKey,
-  data?: Record<string, any>
+  data?: Record<string, unknown>
 ) => T;
 
 export type VesoMap = Partial<{
