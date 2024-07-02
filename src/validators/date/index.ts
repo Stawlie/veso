@@ -1,4 +1,4 @@
-import { VesoValueTypes, getValueType } from "../utils";
+import { VesoValueTypes, getValueType, EMPTY_VALUES } from "../utils";
 import { useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
@@ -6,7 +6,6 @@ export class VesoDate {
   private _check: UTILS.VesoDateCheck[];
   private _coerce: boolean;
   private _validationIssue: string | null = null;
-  private _isRequired = false;
 
   constructor(settings?: UTILS.VesoDateConstructor) {
     this._check = settings?.check || [];
@@ -18,14 +17,14 @@ export class VesoDate {
   }
 
   private _addCheck(check: UTILS.VesoDateCheck) {
-    this._check.push(check);
+    check.type === "required"
+      ? this._check.unshift(check)
+      : this._check.push(check);
 
     return this;
   }
 
   public required(message?: string) {
-    this._isRequired = true;
-
     return this._addCheck({
       type: "required",
       message: useTranslate({
@@ -101,7 +100,7 @@ export class VesoDate {
     this._validationIssue = null;
 
     if (this._coerce) {
-      value = ["", null, undefined].includes(value) ? null : new Date(value);
+      value = EMPTY_VALUES.includes(value) ? null : new Date(value);
     }
 
     const valueType = getValueType(value);
@@ -122,7 +121,8 @@ export class VesoDate {
       return true;
     }
 
-    if (!this._isRequired) {
+    // Required check always first
+    if (this._check[0].type !== "required" && EMPTY_VALUES.includes(value)) {
       return true;
     }
 
