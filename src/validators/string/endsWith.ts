@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoStringValueTypes } from "./utils";
-
-export function endsWith(
-  value: string,
-  valueType: VesoStringValueTypes,
-  endsWith: string
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function endsWith(value: string, endsWith: string) {
   return value.endsWith(endsWith);
 }

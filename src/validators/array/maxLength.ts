@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoArrayValueTypes } from "./utils";
-
-export function maxLength(
-  value: any[],
-  valueType: VesoArrayValueTypes,
-  maxLength: number
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function maxLength(value: any[], maxLength: number) {
   return value.length <= maxLength;
 }

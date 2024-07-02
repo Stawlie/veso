@@ -1,6 +1,14 @@
 # Changelog
 
-## 1.0.0-alpha.7
+## 1.0.0-alpha.8
+
+- Change `coerce` functionality.
+
+From now `coerce` more predictable on `""`, `undefined` and `null`. This values will be valid except `.required()` is used!
+
+## Previous Releases
+
+### 1.0.0-alpha.7
 
 - Added `setMap` function to make custom errors more simple!
 
@@ -43,8 +51,6 @@ v.string().minLength(3, "{minLength} - is min length!").validate("hi"); // => "3
   2. Translation with `setTranslate`.
   3. Translation with `setMap`.
   4. Default error message.
-
-## Previous Releases
 
 ### 1.0.0-alpha.6
 

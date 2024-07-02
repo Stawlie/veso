@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoStringValueTypes } from "./utils";
-
-export function minLength(
-  value: string,
-  valueType: VesoStringValueTypes,
-  minLength: number
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function minLength(value: string, minLength: number) {
   return value.length >= minLength;
 }

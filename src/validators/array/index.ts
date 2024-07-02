@@ -5,6 +5,7 @@ import * as UTILS from "./utils";
 export class VesoArray {
   private _check: UTILS.VesoArrayCheck[] = [];
   private _validationIssue: string | null = null;
+  private _isRequired = false;
 
   constructor(settings?: UTILS.VesoArrayConstructor) {
     if (!settings) {
@@ -27,6 +28,8 @@ export class VesoArray {
   }
 
   public required(message?: string) {
+    this._isRequired = true;
+
     return this._addCheck({
       type: "required",
       message: useTranslate({
@@ -97,6 +100,10 @@ export class VesoArray {
       return true;
     }
 
+    if (!this._isRequired) {
+      return true;
+    }
+
     loop: for (const check of this._check) {
       switch (check.type) {
         case "required": {
@@ -109,7 +116,7 @@ export class VesoArray {
         }
 
         case "exactLength": {
-          if (UTILS.exactLength(value, valueType, check.value)) {
+          if (UTILS.exactLength(value, check.value)) {
             break;
           }
 
@@ -118,7 +125,7 @@ export class VesoArray {
         }
 
         case "maxLength": {
-          if (UTILS.maxLength(value, valueType, check.value)) {
+          if (UTILS.maxLength(value, check.value)) {
             break;
           }
 
@@ -127,7 +134,7 @@ export class VesoArray {
         }
 
         case "minLength": {
-          if (UTILS.minLength(value, valueType, check.value)) {
+          if (UTILS.minLength(value, check.value)) {
             break;
           }
 

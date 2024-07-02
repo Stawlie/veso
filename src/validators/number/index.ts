@@ -6,6 +6,7 @@ export class VesoNumber {
   private _check: UTILS.VesoNumberCheck[];
   private _coerce: boolean;
   private _validationIssue: string | null = null;
+  private _isRequired = false;
 
   constructor(settings?: UTILS.VesoNumberConstructor) {
     this._check = settings?.check || [];
@@ -23,6 +24,8 @@ export class VesoNumber {
   }
 
   public required(message?: string) {
+    this._isRequired = true;
+
     return this._addCheck({
       type: "required",
       message: useTranslate({
@@ -200,8 +203,10 @@ export class VesoNumber {
     this._validationIssue = null;
 
     if (this._coerce) {
-      value = Number(value);
+      value = ["", null, undefined].includes(value) ? null : Number(value);
     }
+
+    console.log(value);
 
     const valueType = getValueType(value);
 
@@ -221,6 +226,10 @@ export class VesoNumber {
       return true;
     }
 
+    if (!this._isRequired) {
+      return true;
+    }
+
     loop: for (const check of this._check) {
       switch (check.type) {
         case "required": {
@@ -233,7 +242,7 @@ export class VesoNumber {
         }
 
         case "int": {
-          if (UTILS.int(value, valueType)) {
+          if (UTILS.int(value)) {
             break;
           }
 
@@ -242,7 +251,7 @@ export class VesoNumber {
         }
 
         case "min": {
-          if (UTILS.min(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.min(value, check.value, check.inclusive)) {
             break;
           }
 
@@ -251,7 +260,7 @@ export class VesoNumber {
         }
 
         case "max": {
-          if (UTILS.max(value, valueType, check.value, check.inclusive)) {
+          if (UTILS.max(value, check.value, check.inclusive)) {
             break;
           }
 
@@ -260,7 +269,7 @@ export class VesoNumber {
         }
 
         case "multipleOf": {
-          if (UTILS.multipleOf(value, valueType, check.value)) {
+          if (UTILS.multipleOf(value, check.value)) {
             break;
           }
 
@@ -269,7 +278,7 @@ export class VesoNumber {
         }
 
         case "notIn": {
-          if (UTILS.notIn(value, valueType, check.value)) {
+          if (UTILS.notIn(value, check.value)) {
             break;
           }
 

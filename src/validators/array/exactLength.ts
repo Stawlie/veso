@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoArrayValueTypes } from "./utils";
-
-export function exactLength(
-  value: any[],
-  valueType: VesoArrayValueTypes,
-  exactLength: number
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function exactLength(value: any[], exactLength: number) {
   return value.length === exactLength;
 }

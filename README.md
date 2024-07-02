@@ -276,6 +276,8 @@ v.coerce.number(); // => Number(value)
 v.coerce.date(); // => new Date(value)
 ```
 
+**Note** - values `""`, `undefined` and `null` are not coersing and will be valid without `.required()`.
+
 ## Translation of errors
 
 ### setTranslate

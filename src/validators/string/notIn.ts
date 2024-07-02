@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoStringValueTypes } from "./utils";
-
-export function notIn(
-  value: string,
-  valueType: VesoStringValueTypes,
-  notIn: string[]
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function notIn(value: string, notIn: string[]) {
   return !notIn.includes(value);
 }

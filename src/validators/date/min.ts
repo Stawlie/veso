@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoDateValueTypes } from "./utils";
-
-export function min(
-  value: Date,
-  valueType: VesoDateValueTypes,
-  min: Date | number
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function min(value: Date, min: Date | number) {
   return value >= min;
 }

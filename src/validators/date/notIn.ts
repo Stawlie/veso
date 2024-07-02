@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoDateValueTypes } from "./utils";
-
-export function notIn(
-  value: Date,
-  valueType: VesoDateValueTypes,
-  notIn: Date[]
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function notIn(value: Date, notIn: Date[]) {
   return !notIn.map((item) => item.getTime()).includes(value.getTime());
 }

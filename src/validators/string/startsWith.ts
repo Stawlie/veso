@@ -1,14 +1,3 @@
-import { required } from "./required";
-import { VesoStringValueTypes } from "./utils";
-
-export function startsWith(
-  value: string,
-  valueType: VesoStringValueTypes,
-  startsWith: string
-) {
-  if (!required(value, valueType)) {
-    return true;
-  }
-
+export function startsWith(value: string, startsWith: string) {
   return value.startsWith(startsWith);
 }

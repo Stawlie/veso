@@ -6,6 +6,7 @@ export class VesoDate {
   private _check: UTILS.VesoDateCheck[];
   private _coerce: boolean;
   private _validationIssue: string | null = null;
+  private _isRequired = false;
 
   constructor(settings?: UTILS.VesoDateConstructor) {
     this._check = settings?.check || [];
@@ -23,6 +24,8 @@ export class VesoDate {
   }
 
   public required(message?: string) {
+    this._isRequired = true;
+
     return this._addCheck({
       type: "required",
       message: useTranslate({
@@ -98,7 +101,7 @@ export class VesoDate {
     this._validationIssue = null;
 
     if (this._coerce) {
-      value = new Date(value);
+      value = ["", null, undefined].includes(value) ? null : new Date(value);
     }
 
     const valueType = getValueType(value);
@@ -119,6 +122,10 @@ export class VesoDate {
       return true;
     }
 
+    if (!this._isRequired) {
+      return true;
+    }
+
     loop: for (const check of this._check) {
       switch (check.type) {
         case "required": {
@@ -131,7 +138,7 @@ export class VesoDate {
         }
 
         case "min": {
-          if (UTILS.min(value, valueType, check.value)) {
+          if (UTILS.min(value, check.value)) {
             break;
           }
 
@@ -140,7 +147,7 @@ export class VesoDate {
         }
 
         case "max": {
-          if (UTILS.max(value, valueType, check.value)) {
+          if (UTILS.max(value, check.value)) {
             break;
           }
 
@@ -149,7 +156,7 @@ export class VesoDate {
         }
 
         case "notIn": {
-          if (UTILS.notIn(value, valueType, check.value)) {
+          if (UTILS.notIn(value, check.value)) {
             break;
           }
 

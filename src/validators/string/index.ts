@@ -6,6 +6,7 @@ export class VesoString {
   private _check: UTILS.VesoStringCheck[];
   private _coerce: boolean;
   private _validationIssue: string | null = null;
+  private _isRequired = false;
 
   constructor(settings?: UTILS.VesoStringConstructor) {
     this._check = settings?.check || [];
@@ -23,6 +24,8 @@ export class VesoString {
   }
 
   public required(message?: string) {
+    this._isRequired = true;
+
     return this._addCheck({
       type: "required",
       message: useTranslate({
@@ -251,7 +254,7 @@ export class VesoString {
     this._validationIssue = null;
 
     if (this._coerce) {
-      value = String(value);
+      value = [null, undefined].includes(value) ? null : String(value);
     }
 
     const valueType = getValueType(value);
@@ -272,6 +275,10 @@ export class VesoString {
       return true;
     }
 
+    if (!this._isRequired) {
+      return true;
+    }
+
     loop: for (const check of this._check) {
       switch (check.type) {
         case "required": {
@@ -284,7 +291,7 @@ export class VesoString {
         }
 
         case "minLength": {
-          if (UTILS.minLength(value, valueType, check.value)) {
+          if (UTILS.minLength(value, check.value)) {
             break;
           }
 
@@ -293,7 +300,7 @@ export class VesoString {
         }
 
         case "maxLength": {
-          if (UTILS.maxLength(value, valueType, check.value)) {
+          if (UTILS.maxLength(value, check.value)) {
             break;
           }
 
@@ -302,7 +309,7 @@ export class VesoString {
         }
 
         case "exactLength": {
-          if (UTILS.exactLength(value, valueType, check.value)) {
+          if (UTILS.exactLength(value, check.value)) {
             break;
           }
 
@@ -311,7 +318,7 @@ export class VesoString {
         }
 
         case "startsWith": {
-          if (UTILS.startsWith(value, valueType, check.value)) {
+          if (UTILS.startsWith(value, check.value)) {
             break;
           }
 
@@ -320,7 +327,7 @@ export class VesoString {
         }
 
         case "endsWith": {
-          if (UTILS.endsWith(value, valueType, check.value)) {
+          if (UTILS.endsWith(value, check.value)) {
             break;
           }
 
@@ -329,7 +336,7 @@ export class VesoString {
         }
 
         case "includes": {
-          if (UTILS.includes(value, valueType, check.value, check.position)) {
+          if (UTILS.includes(value, check.value, check.position)) {
             break;
           }
 
@@ -338,7 +345,7 @@ export class VesoString {
         }
 
         case "regex": {
-          if (UTILS.regex(value, valueType, check.value)) {
+          if (UTILS.regex(value, check.value)) {
             break;
           }
 
@@ -347,7 +354,7 @@ export class VesoString {
         }
 
         case "unique": {
-          if (UTILS.unique(value, valueType, check.value)) {
+          if (UTILS.unique(value, check.value)) {
             break;
           }
 
@@ -356,7 +363,7 @@ export class VesoString {
         }
 
         case "notIn": {
-          if (UTILS.notIn(value, valueType, check.value)) {
+          if (UTILS.notIn(value, check.value)) {
             break;
           }
 
