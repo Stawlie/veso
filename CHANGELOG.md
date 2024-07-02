@@ -1,6 +1,52 @@
 # Changelog
 
-## 1.0.0-alpha.6
+## 1.0.0-alpha.7
+
+- Added `setMap` function to make custom errors more simple!
+
+```ts
+import { setMap } from "veso";
+
+setMap({
+  STRING: {
+    required: "Required field!",
+  },
+});
+
+setMap(null); // Reset map to default
+```
+
+**Note** - If there is no message in map, the default message will be returned!
+
+- Added `VesoMap` type to define map for `setMap` function.
+
+- Added `VesoTranslateFunction` type to define function for `setTranslate` function.
+
+- Every message supports `{key}` params, except for translation using `setTranslate`! The parameter name is the same as in the validator method!
+
+```ts
+import { v, setMap } from "veso";
+
+setMap({
+  STRING: {
+    minLength: "Min length - {minLength}",
+  },
+});
+
+v.string().minLength(3).validate("hi"); // => "Min length - 3"
+v.string().minLength(3, "{minLength} - is min length!").validate("hi"); // => "3 - is min length!"
+```
+
+- Updated Veso `translation order`:
+
+  1. Message, passed in validator.
+  2. Translation with `setTranslate`.
+  3. Translation with `setMap`.
+  4. Default error message.
+
+## Previous Releases
+
+### 1.0.0-alpha.6
 
 - Added String, Number and Date `notIn` validator.
 
@@ -33,8 +79,6 @@ notIn.validate(new Date(1)); // => true
 notIn.validate(new Date(10)); // => "The value is not allowed!"
 notIn.validate(new Date(100)); // => "The value is not allowed!"
 ```
-
-## Previous Releases
 
 ### 1.0.0-alpha.5
 

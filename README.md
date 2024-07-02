@@ -278,23 +278,46 @@ v.coerce.date(); // => new Date(value)
 
 ## Translation of errors
 
+### setTranslate
+
 You can pass in `translation function` to make your custom errors without providing messages to every validator every single time.
 
 ```ts
-import { setTranslate } from "veso";
+import { setTranslate, VesoTranslateFunction } from "veso";
 
-function myTranslateFn(key: string, settings?: Record<string, unknown>) {
+const myTranslateFn: VesoTranslateFunction = (key, settings) => {
   // Your translation logic
-}
+};
 
 setTranslate(myTranslateFn);
 ```
 
 The `key` is a constant value for each validator and the `settings` are the data you pass to the validator.
 
-Every `key` is named according the following structure: "VESO.{primitive in upper case}.{validator name}". Here's an example: For string validator "required" the key is "VESO.STRING.required".
+`VesoTranslateKey` - type for every posible key!
 
 The best way to use this type of translation is with **i18n** library. You can pass the `t` function to `setTranslate` and thats it! It fully supports additional parameters to translation.
+
+### setMap
+
+You can pass in `translation map` to make your custom errors without providing messages to every validator every single time.
+
+```ts
+import { setMap, VesoMap } from "veso";
+
+const myMap: VesoMap = {
+  // Your translations
+};
+
+setMap(myMap);
+```
+
+### Translation order
+
+1. Message, passed in validator.
+2. Translation with `setTranslate`.
+3. Translation with `setMap`.
+4. Default error message.
 
 ## Changelog
 

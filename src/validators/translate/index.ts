@@ -25,6 +25,14 @@ function insertValues(message: string, data?: Record<string, unknown>) {
   return message;
 }
 
+function getDefaultMessage<T extends VesoValidatorName>(
+  name: T,
+  method: VesoRecord[T]
+) {
+  // @ts-ignore (stupid TS)
+  return DEFAULT_MAP[name][method];
+}
+
 type UseTranslateFunction = <T extends VesoValidatorName>(settings: {
   name: T;
   method: VesoRecord[T];
@@ -42,22 +50,20 @@ export const useTranslate: UseTranslateFunction = ({
     return insertValues(message, data);
   }
 
-  const key = `VESO.${name}.${method}` as VesoTranslateKey;
-
   if (translate) {
-    return translate(key, data);
+    return translate(`VESO.${name}.${method}` as VesoTranslateKey, data);
   }
 
   const validatorRecord = map[name];
 
   if (!validatorRecord) {
-    return key;
+    return insertValues(getDefaultMessage(name, method), data);
   }
 
   let validatorTranslation = validatorRecord[method];
 
   if (!validatorTranslation) {
-    return key;
+    return insertValues(getDefaultMessage(name, method), data);
   }
 
   return insertValues(validatorTranslation, data);
