@@ -1,12 +1,18 @@
 # Changelog
 
-## 1.0.0-alpha.8
+## 1.0.0-alpha.9
+
+- All `required` methods now have primary priority when validating data.
+
+- Fixed a bug when validating without `required` method.
+
+## Previous Releases
+
+### 1.0.0-alpha.8
 
 - Change `coerce` functionality.
 
 From now `coerce` more predictable on `""`, `undefined` and `null`. This values will be valid except `.required()` is used!
-
-## Previous Releases
 
 ### 1.0.0-alpha.7
 
