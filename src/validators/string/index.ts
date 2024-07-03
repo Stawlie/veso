@@ -24,14 +24,20 @@ export class VesoString {
     return this;
   }
 
-  public required(message?: string) {
+  public required({
+    message,
+    validateIf = true,
+  }: UTILS.VesoCheckSettings = {}) {
     return this._addCheck({
       type: "required",
-      message: useTranslate({
-        name: "STRING",
-        method: "required",
-        message,
-      }),
+      settings: {
+        message: useTranslate({
+          name: "STRING",
+          method: "required",
+          message,
+        }),
+        validateIf,
+      },
     });
   }
 
@@ -286,7 +292,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = check.settings.message;
           break loop;
         }
 

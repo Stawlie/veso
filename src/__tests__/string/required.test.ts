@@ -1,5 +1,6 @@
 import { v } from "veso";
-import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+
+const ERROR_MESSAGE = "Custom message!";
 
 describe("Validates empty string (without required)", () => {
   const required = v.string();
@@ -38,40 +39,50 @@ describe("Validates undefined (without required)", () => {
 });
 
 describe("Validates empty string", () => {
-  const required = v.string().required();
-  const coerceRequired = v.coerce.string().required();
+  const required = v.string().required({
+    message: ERROR_MESSAGE,
+  });
+  const coerceRequired = v.coerce.string().required({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
-    expect(required.validate("")).toBe(DEFAULT_MAP.STRING.required);
+    expect(required.validate("")).toBe(ERROR_MESSAGE);
   });
   it("With coerce", () => {
-    expect(coerceRequired.validate("")).toBe(DEFAULT_MAP.STRING.required);
+    expect(coerceRequired.validate("")).toBe(ERROR_MESSAGE);
   });
 });
 
 describe("Validates null", () => {
-  const required = v.string().required();
-  const coerceRequired = v.coerce.string().required();
+  const required = v.string().required({
+    message: ERROR_MESSAGE,
+  });
+  const coerceRequired = v.coerce.string().required({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
-    expect(required.validate(null)).toBe(DEFAULT_MAP.STRING.required);
+    expect(required.validate(null)).toBe(ERROR_MESSAGE);
   });
   it("With coerce", () => {
-    expect(coerceRequired.validate(null)).toBe(DEFAULT_MAP.STRING.required);
+    expect(coerceRequired.validate(null)).toBe(ERROR_MESSAGE);
   });
 });
 
 describe("Validates undefined", () => {
-  const required = v.string().required();
-  const coerceRequired = v.coerce.string().required();
+  const required = v.string().required({
+    message: ERROR_MESSAGE,
+  });
+  const coerceRequired = v.coerce.string().required({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
-    expect(required.validate(undefined)).toBe(DEFAULT_MAP.STRING.required);
+    expect(required.validate(undefined)).toBe(ERROR_MESSAGE);
   });
   it("With coerce", () => {
-    expect(coerceRequired.validate(undefined)).toBe(
-      DEFAULT_MAP.STRING.required
-    );
+    expect(coerceRequired.validate(undefined)).toBe(ERROR_MESSAGE);
   });
 });
 

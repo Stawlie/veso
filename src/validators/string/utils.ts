@@ -11,8 +11,13 @@ export * from "./notIn";
 
 export type VesoStringValueTypes = "string" | "null" | "undefined";
 
+export type VesoCheckSettings = {
+  message?: string;
+  validateIf?: boolean | (() => boolean);
+};
+
 export type VesoStringCheck =
-  | { type: "required"; message: string }
+  | { type: "required"; settings: Required<VesoCheckSettings> }
   | { type: "minLength"; value: number; message: string }
   | { type: "maxLength"; value: number; message: string }
   | { type: "exactLength"; value: number; message: string }

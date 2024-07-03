@@ -45,8 +45,12 @@ describe("Overrides MAP messages with TRANSLATE", () => {
 
 describe("Overrides TRANSLATE messages with CUSTOM MESSAGE", () => {
   const CUSTOM_MESSAGE = "Custom message!";
-  const required = v.string().required(CUSTOM_MESSAGE);
-  const coerceRequired = v.coerce.string().required(CUSTOM_MESSAGE);
+  const required = v.string().required({
+    message: CUSTOM_MESSAGE,
+  });
+  const coerceRequired = v.coerce.string().required({
+    message: CUSTOM_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(required.validate("")).toBe(CUSTOM_MESSAGE);
