@@ -166,7 +166,7 @@ url.validate("htps://test.c"); // invalid
 
 ### Numeric
 
-Validates integers and decimals.
+Validates negatives, integers and decimals.
 
 ```ts
 import { v } from "veso";

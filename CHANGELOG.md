@@ -1,12 +1,18 @@
 # Changelog
 
-## 1.0.0-alpha.9
+## 1.0.0-alpha.10
+
+- Fixed number `multipleOf` error messages parsing.
+
+- Added check for negatives at string `numeric` method.
+
+## Previous Releases
+
+### 1.0.0-alpha.9
 
 - All `required` methods now have primary priority when validating data.
 
 - Fixed a bug when validating without `required` method.
-
-## Previous Releases
 
 ### 1.0.0-alpha.8
 
