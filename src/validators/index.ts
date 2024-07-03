@@ -12,6 +12,7 @@ export type {
 export type VesoValidator = VesoString | VesoNumber | VesoArray | VesoDate;
 
 export { string, number, array, date };
+export type { VesoString, VesoNumber, VesoArray, VesoDate };
 
 export const coerce = {
   string: coerceString,

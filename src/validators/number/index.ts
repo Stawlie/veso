@@ -144,7 +144,7 @@ export class VesoNumber {
       type: "multipleOf",
       message: useTranslate({
         name: "NUMBER",
-        method: "nonnegative",
+        method: "multipleOf",
         data: { multipleOf },
         message,
       }),

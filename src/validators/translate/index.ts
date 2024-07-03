@@ -13,7 +13,7 @@ export function setMap(newMap: VesoMap | null) {
   map = newMap || DEFAULT_MAP;
 }
 
-function insertValues(message: string, data?: Record<string, unknown>) {
+function insertParams(message: string, data?: Record<string, unknown>) {
   if (!data) {
     return message;
   }
@@ -47,7 +47,7 @@ export const useTranslate: UseTranslateFunction = ({
   message,
 }) => {
   if (message) {
-    return insertValues(message, data);
+    return insertParams(message, data);
   }
 
   if (translate) {
@@ -57,14 +57,14 @@ export const useTranslate: UseTranslateFunction = ({
   const validatorRecord = map[name];
 
   if (!validatorRecord) {
-    return insertValues(getDefaultMessage(name, method), data);
+    return insertParams(getDefaultMessage(name, method), data);
   }
 
   let validatorTranslation = validatorRecord[method];
 
   if (!validatorTranslation) {
-    return insertValues(getDefaultMessage(name, method), data);
+    return insertParams(getDefaultMessage(name, method), data);
   }
 
-  return insertValues(validatorTranslation, data);
+  return insertParams(validatorTranslation, data);
 };
