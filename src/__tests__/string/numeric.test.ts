@@ -19,8 +19,12 @@ describe("Validates numeric values", () => {
 });
 
 describe("Validates not numeric values", () => {
-  const numeric = v.string().numeric(ERROR_MESSAGE);
-  const coerceNumeric = v.coerce.string().numeric(ERROR_MESSAGE);
+  const numeric = v.string().numeric({
+    message: ERROR_MESSAGE,
+  });
+  const coerceNumeric = v.coerce.string().numeric({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(numeric.validate("grehre")).toBe(ERROR_MESSAGE);

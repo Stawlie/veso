@@ -3,8 +3,12 @@ import { v } from "veso";
 const ERROR_MESSAGE = "Custom message!";
 
 describe("Validates lower minLength", () => {
-  const minLength = v.string().minLength(5, ERROR_MESSAGE);
-  const coerceMinLength = v.coerce.string().minLength(5, ERROR_MESSAGE);
+  const minLength = v.string().minLength(5, {
+    message: ERROR_MESSAGE,
+  });
+  const coerceMinLength = v.coerce.string().minLength(5, {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(minLength.validate("1234")).toBe(ERROR_MESSAGE);

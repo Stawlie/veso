@@ -1,5 +1,5 @@
 import { VesoValueTypes, getValueType, EMPTY_VALUES } from "../utils";
-import { useTranslate } from "../translate";
+import { UseTranslateSettings, useTranslate } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoString {
@@ -24,234 +24,230 @@ export class VesoString {
     return this;
   }
 
-  public required({
-    message,
-    validateIf = true,
-  }: UTILS.VesoCheckSettings = {}) {
+  public required(settings?: UTILS.VesoGetSettings<"required">) {
     return this._addCheck({
       type: "required",
       settings: {
-        message: useTranslate({
-          name: "STRING",
-          method: "required",
-          message,
-        }),
-        validateIf,
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
       },
     });
   }
 
-  public minLength(minLength: number, message?: string) {
+  public minLength(
+    minLength: number,
+    settings?: UTILS.VesoGetSettings<"minLength">
+  ) {
     return this._addCheck({
       type: "minLength",
-      message: useTranslate({
-        name: "STRING",
-        method: "minLength",
-        data: { minLength },
-        message,
-      }),
       value: minLength,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public maxLength(maxLength: number, message?: string) {
+  public maxLength(
+    maxLength: number,
+    settings?: UTILS.VesoGetSettings<"maxLength">
+  ) {
     return this._addCheck({
       type: "maxLength",
-      message: useTranslate({
-        name: "STRING",
-        method: "maxLength",
-        data: { maxLength },
-        message,
-      }),
       value: maxLength,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public exactLength(exactLength: number, message?: string) {
+  public exactLength(
+    exactLength: number,
+    settings?: UTILS.VesoGetSettings<"exactLength">
+  ) {
     return this._addCheck({
       type: "exactLength",
-      message: useTranslate({
-        name: "STRING",
-        method: "exactLength",
-        data: { exactLength },
-        message,
-      }),
       value: exactLength,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public startsWith(startsWith: string, message?: string) {
+  public startsWith(
+    startsWith: string,
+    settings?: UTILS.VesoGetSettings<"startsWith">
+  ) {
     return this._addCheck({
       type: "startsWith",
-      message: useTranslate({
-        name: "STRING",
-        method: "startsWith",
-        data: { startsWith },
-        message,
-      }),
       value: startsWith,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public endsWith(endsWith: string, message?: string) {
+  public endsWith(
+    endsWith: string,
+    settings?: UTILS.VesoGetSettings<"endsWith">
+  ) {
     return this._addCheck({
       type: "endsWith",
-      message: useTranslate({
-        name: "STRING",
-        method: "endsWith",
-        data: { endsWith },
-        message,
-      }),
       value: endsWith,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public includes(includes: string, message?: string) {
+  public includes(
+    includes: string,
+    settings?: UTILS.VesoGetSettings<"includes">
+  ) {
     return this._addCheck({
       type: "includes",
-      message: useTranslate({
-        name: "STRING",
-        method: "includes",
-        data: { includes },
-        message,
-      }),
       value: includes,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public regex(regex: RegExp, message?: string) {
+  public regex(regex: RegExp, settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "regex",
-        data: { regex },
-        message,
-      }),
       value: regex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public ip(ip: UTILS.VesoIpTypes = "v4", message?: string) {
+  public ip(
+    ip: UTILS.VesoIpTypes = "v4",
+    settings?: UTILS.VesoGetSettings<"regex">
+  ) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "ip",
-        data: { ip },
-        message,
-      }),
+      method: "ip",
       value: ip === "v4" ? UTILS.v4Regex : UTILS.v6Regex,
+      data: { ip },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public mac(message?: string) {
+  public mac(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "mac",
-        message,
-      }),
+      method: "mac",
       value: UTILS.macRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public email(message?: string) {
+  public email(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "email",
-        message,
-      }),
+      method: "email",
       value: UTILS.emailRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public url(message?: string) {
+  public url(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "url",
-        message,
-      }),
+      method: "url",
       value: UTILS.urlRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public unique(unique: number, message?: string) {
+  public unique(unique: number, settings?: UTILS.VesoGetSettings<"unique">) {
     return this._addCheck({
       type: "unique",
-      message: useTranslate({
-        name: "STRING",
-        method: "unique",
-        data: { unique },
-        message,
-      }),
       value: unique,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public numeric(message?: string) {
+  public numeric(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "numeric",
-        message,
-      }),
+      method: "numeric",
       value: UTILS.numericRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public alpha(message?: string) {
+  public alpha(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "alpha",
-        message,
-      }),
+      method: "alpha",
       value: UTILS.alphaRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public alphaNum(message?: string) {
+  public alphaNum(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "alphaNum",
-        message,
-      }),
+      method: "alphaNum",
       value: UTILS.alphaNumRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public hex(message?: string) {
+  public hex(settings?: UTILS.VesoGetSettings<"regex">) {
     return this._addCheck({
       type: "regex",
-      message: useTranslate({
-        name: "STRING",
-        method: "hex",
-        message,
-      }),
+      method: "hex",
       value: UTILS.hexRegex,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public notIn(notIn: string[], message?: string) {
+  public notIn(notIn: string[], settings?: UTILS.VesoGetSettings<"notIn">) {
     return this._addCheck({
       type: "notIn",
-      message: useTranslate({
-        name: "STRING",
-        method: "notIn",
-        data: { notIn },
-        message,
-      }),
       value: notIn,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
@@ -286,13 +282,34 @@ export class VesoString {
     }
 
     loop: for (const check of this._check) {
+      if (
+        !check.settings.validateIf &&
+        check.settings.validateIf !== undefined
+      ) {
+        continue;
+      }
+
+      if (
+        typeof check.settings.validateIf === "function" &&
+        !check.settings.validateIf()
+      ) {
+        continue;
+      }
+
+      const message: UseTranslateSettings<"STRING"> = {
+        name: "STRING",
+        method: check.method || check.type,
+        data: check.data,
+        message: check.settings.message,
+      };
+
       switch (check.type) {
         case "required": {
           if (UTILS.required(value, valueType)) {
             break;
           }
 
-          this._validationIssue = check.settings.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -301,7 +318,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -310,7 +327,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -319,7 +336,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -328,7 +345,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -337,16 +354,16 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
         case "includes": {
-          if (UTILS.includes(value, check.value, check.position)) {
+          if (UTILS.includes(value, check.value, check.settings.position)) {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -355,7 +372,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -364,7 +381,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -373,7 +390,7 @@ export class VesoString {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 

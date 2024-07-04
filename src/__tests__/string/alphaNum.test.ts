@@ -23,8 +23,12 @@ describe("Validates alphanumeric", () => {
 });
 
 describe("Validates not alphanumeric", () => {
-  const alphaNum = v.string().alphaNum(ERROR_MESSAGE);
-  const coerceAlphaNum = v.coerce.string().alphaNum(ERROR_MESSAGE);
+  const alphaNum = v.string().alphaNum({
+    message: ERROR_MESSAGE,
+  });
+  const coerceAlphaNum = v.coerce.string().alphaNum({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(alphaNum.validate("Какой-то текст")).toBe(ERROR_MESSAGE);
@@ -37,5 +41,41 @@ describe("Validates not alphanumeric", () => {
     expect(coerceAlphaNum.validate("alphanumer1c?")).toBe(ERROR_MESSAGE);
     expect(coerceAlphaNum.validate("-----")).toBe(ERROR_MESSAGE);
     expect(coerceAlphaNum.validate("No spaces for you")).toBe(ERROR_MESSAGE);
+  });
+});
+
+describe("Does not validate when validateIf: false", () => {
+  const alphaNumBoolean = v.string().alphaNum({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const alphaNumFunction = v.string().alphaNum({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceAlphaNumBoolean = v.coerce.string().alphaNum({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceAlphaNumFunction = v.coerce.string().alphaNum({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(alphaNumBoolean.validate("test123?")).toBe(true);
+    expect(alphaNumFunction.validate("test123?")).toBe(true);
+    expect(alphaNumBoolean.validate("Это текст на русском?")).toBe(true);
+    expect(alphaNumFunction.validate("Это текст на русском?")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceAlphaNumBoolean.validate("test123?")).toBe(true);
+    expect(coerceAlphaNumFunction.validate("test123?")).toBe(true);
+    expect(coerceAlphaNumBoolean.validate("Это текст на русском?")).toBe(true);
+    expect(coerceAlphaNumFunction.validate("Это текст на русском?")).toBe(true);
   });
 });

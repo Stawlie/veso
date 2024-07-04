@@ -15,8 +15,12 @@ describe("Validates ipv4", () => {
 });
 
 describe("Validates not ipv4", () => {
-  const ip = v.string().ip("v4", ERROR_MESSAGE);
-  const coerceIp = v.coerce.string().ip("v4", ERROR_MESSAGE);
+  const ip = v.string().ip("v4", {
+    message: ERROR_MESSAGE,
+  });
+  const coerceIp = v.coerce.string().ip("v4", {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(ip.validate("127.0.0.01")).toBe(ERROR_MESSAGE);
@@ -47,8 +51,12 @@ describe("Validates ipv6", () => {
 });
 
 describe("Validates not ipv6", () => {
-  const ip = v.string().ip("v6", ERROR_MESSAGE);
-  const coerceIp = v.coerce.string().ip("v6", ERROR_MESSAGE);
+  const ip = v.string().ip("v6", {
+    message: ERROR_MESSAGE,
+  });
+  const coerceIp = v.coerce.string().ip("v6", {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(ip.validate("2560:d0c2:2069:7783")).toBe(ERROR_MESSAGE);

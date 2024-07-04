@@ -15,8 +15,12 @@ describe("Validates when satisfies regex", () => {
 });
 
 describe("Validates when not satisfies regex", () => {
-  const regex = v.string().regex(/^test321$/, ERROR_MESSAGE);
-  const coerceRegex = v.coerce.string().regex(/^test321$/, ERROR_MESSAGE);
+  const regex = v.string().regex(/^test321$/, {
+    message: ERROR_MESSAGE,
+  });
+  const coerceRegex = v.coerce.string().regex(/^test321$/, {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(regex.validate("ntest123")).toBe(ERROR_MESSAGE);

@@ -19,8 +19,12 @@ describe("Validates when includes", () => {
 });
 
 describe("Validates when not includes", () => {
-  const includes = v.string().includes("test321", ERROR_MESSAGE);
-  const coerceIncludes = v.coerce.string().includes("test321", ERROR_MESSAGE);
+  const includes = v.string().includes("test321", {
+    message: ERROR_MESSAGE,
+  });
+  const coerceIncludes = v.coerce.string().includes("test321", {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(includes.validate("ntest123")).toBe(ERROR_MESSAGE);

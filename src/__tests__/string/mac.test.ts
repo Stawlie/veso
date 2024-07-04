@@ -17,8 +17,12 @@ describe("Validates mac", () => {
 });
 
 describe("Validates not mac", () => {
-  const mac = v.string().mac(ERROR_MESSAGE);
-  const coerceMac = v.coerce.string().mac(ERROR_MESSAGE);
+  const mac = v.string().mac({
+    message: ERROR_MESSAGE,
+  });
+  const coerceMac = v.coerce.string().mac({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(mac.validate("00:00:00:01")).toBe(ERROR_MESSAGE);

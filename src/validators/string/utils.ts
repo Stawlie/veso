@@ -1,3 +1,4 @@
+import { VesoRecord } from "../utils";
 export * from "./required";
 export * from "./minLength";
 export * from "./maxLength";
@@ -11,22 +12,66 @@ export * from "./notIn";
 
 export type VesoStringValueTypes = "string" | "null" | "undefined";
 
-export type VesoCheckSettings = {
+type VesoStringMethod = VesoRecord["STRING"];
+
+type VesoCheckSettings = {
   message?: string;
   validateIf?: boolean | (() => boolean);
 };
 
+type VesoBaseCheck<T extends Record<string, unknown> = {}> = {
+  settings: VesoCheckSettings & T;
+  method?: VesoStringMethod;
+  data?: Record<string, unknown>;
+};
+
+export const DEFAULT_SETTINGS: VesoCheckSettings = {
+  validateIf: true,
+};
+
 export type VesoStringCheck =
-  | { type: "required"; settings: Required<VesoCheckSettings> }
-  | { type: "minLength"; value: number; message: string }
-  | { type: "maxLength"; value: number; message: string }
-  | { type: "exactLength"; value: number; message: string }
-  | { type: "startsWith"; value: string; message: string }
-  | { type: "endsWith"; value: string; message: string }
-  | { type: "includes"; value: string; position?: number; message: string }
-  | { type: "regex"; value: RegExp; message: string }
-  | { type: "unique"; value: number; message: string }
-  | { type: "notIn"; value: string[]; message: string };
+  | ({ type: "required" } & VesoBaseCheck)
+  | ({
+      type: "minLength";
+      value: number;
+    } & VesoBaseCheck)
+  | ({
+      type: "maxLength";
+      value: number;
+    } & VesoBaseCheck)
+  | ({
+      type: "exactLength";
+      value: number;
+    } & VesoBaseCheck)
+  | ({
+      type: "startsWith";
+      value: string;
+    } & VesoBaseCheck)
+  | ({
+      type: "endsWith";
+      value: string;
+    } & VesoBaseCheck)
+  | ({
+      type: "includes";
+      value: string;
+    } & VesoBaseCheck<{ position?: number }>)
+  | ({
+      type: "regex";
+      value: RegExp;
+    } & VesoBaseCheck)
+  | ({
+      type: "unique";
+      value: number;
+    } & VesoBaseCheck)
+  | ({
+      type: "notIn";
+      value: string[];
+    } & VesoBaseCheck);
+
+export type VesoGetSettings<K extends VesoStringCheck["type"]> = Omit<
+  Extract<VesoStringCheck, { type: K }>["settings"],
+  "message"
+> & { message?: string };
 
 export type VesoStringConstructor = {
   check?: VesoStringCheck[];

@@ -22,8 +22,12 @@ describe("Validates alpha", () => {
 });
 
 describe("Validates not alpha", () => {
-  const alpha = v.string().alpha(ERROR_MESSAGE);
-  const coerceAlpha = v.coerce.string().alpha(ERROR_MESSAGE);
+  const alpha = v.string().alpha({
+    message: ERROR_MESSAGE,
+  });
+  const coerceAlpha = v.coerce.string().alpha({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(alpha.validate("test123")).toBe(ERROR_MESSAGE);
@@ -39,5 +43,41 @@ describe("Validates not alpha", () => {
     expect(coerceAlpha.validate("iambluedabudidabudai123")).toBe(ERROR_MESSAGE);
     expect(coerceAlpha.validate("523454325")).toBe(ERROR_MESSAGE);
     expect(coerceAlpha.validate("No spaces for you")).toBe(ERROR_MESSAGE);
+  });
+});
+
+describe("Does not validate when validateIf: false", () => {
+  const alphaBoolean = v.string().alpha({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const alphaFunction = v.string().alpha({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceAlphaBoolean = v.coerce.string().alpha({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceAlphaFunction = v.coerce.string().alpha({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(alphaBoolean.validate("test123")).toBe(true);
+    expect(alphaFunction.validate("test123")).toBe(true);
+    expect(alphaBoolean.validate("Это текст на русском?")).toBe(true);
+    expect(alphaFunction.validate("Это текст на русском?")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceAlphaBoolean.validate("test123")).toBe(true);
+    expect(coerceAlphaFunction.validate("test123")).toBe(true);
+    expect(coerceAlphaBoolean.validate("Это текст на русском?")).toBe(true);
+    expect(coerceAlphaFunction.validate("Это текст на русском?")).toBe(true);
   });
 });

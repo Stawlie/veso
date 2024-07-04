@@ -19,8 +19,12 @@ describe("Validates url", () => {
 });
 
 describe("Validates not url", () => {
-  const url = v.string().url(ERROR_MESSAGE);
-  const coerceUrl = v.coerce.string().url(ERROR_MESSAGE);
+  const url = v.string().url({
+    message: ERROR_MESSAGE,
+  });
+  const coerceUrl = v.coerce.string().url({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(url.validate("noturl")).toBe(ERROR_MESSAGE);

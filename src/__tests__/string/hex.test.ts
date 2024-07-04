@@ -21,8 +21,12 @@ describe("Validates hex", () => {
 });
 
 describe("Validates not hex", () => {
-  const hex = v.string().hex(ERROR_MESSAGE);
-  const coerceHex = v.coerce.string().hex(ERROR_MESSAGE);
+  const hex = v.string().hex({
+    message: ERROR_MESSAGE,
+  });
+  const coerceHex = v.coerce.string().hex({
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(hex.validate("abcdefg")).toBe(ERROR_MESSAGE);

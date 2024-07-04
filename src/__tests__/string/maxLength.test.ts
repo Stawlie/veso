@@ -28,8 +28,12 @@ describe("Validates exact maxLength", () => {
 });
 
 describe("Validates higher maxLength", () => {
-  const maxLength = v.string().maxLength(5, ERROR_MESSAGE);
-  const coerceMaxLength = v.coerce.string().maxLength(5, ERROR_MESSAGE);
+  const maxLength = v.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+  });
+  const coerceMaxLength = v.coerce.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(maxLength.validate("123456")).toBe(ERROR_MESSAGE);

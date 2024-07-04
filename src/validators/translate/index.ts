@@ -33,12 +33,16 @@ function getDefaultMessage<T extends VesoValidatorName>(
   return DEFAULT_MAP[name][method];
 }
 
-type UseTranslateFunction = <T extends VesoValidatorName>(settings: {
+export type UseTranslateSettings<T extends VesoValidatorName> = {
   name: T;
   method: VesoRecord[T];
   data?: Record<string, unknown>;
   message?: string;
-}) => string;
+};
+
+type UseTranslateFunction = <T extends VesoValidatorName>(
+  settings: UseTranslateSettings<T>
+) => string;
 
 export const useTranslate: UseTranslateFunction = ({
   name,

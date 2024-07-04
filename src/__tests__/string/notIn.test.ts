@@ -17,10 +17,12 @@ describe("Validates not in array", () => {
 });
 
 describe("Validates in array", () => {
-  const notIn = v.string().notIn(["test1", "test2"], ERROR_MESSAGE);
-  const coerceNotIn = v.coerce
-    .string()
-    .notIn(["test1", "test2"], ERROR_MESSAGE);
+  const notIn = v.string().notIn(["test1", "test2"], {
+    message: ERROR_MESSAGE,
+  });
+  const coerceNotIn = v.coerce.string().notIn(["test1", "test2"], {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(notIn.validate("test1")).toBe(ERROR_MESSAGE);

@@ -19,8 +19,12 @@ describe("Validates when starts with", () => {
 });
 
 describe("Validates when not starts with", () => {
-  const startsWith = v.string().startsWith("test", ERROR_MESSAGE);
-  const coerceStartsWith = v.coerce.string().startsWith("test", ERROR_MESSAGE);
+  const startsWith = v.string().startsWith("test", {
+    message: ERROR_MESSAGE,
+  });
+  const coerceStartsWith = v.coerce.string().startsWith("test", {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(startsWith.validate("ntest123")).toBe(ERROR_MESSAGE);

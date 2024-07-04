@@ -17,8 +17,12 @@ describe("Validates enough unique symbols", () => {
 });
 
 describe("Validates not enough unique symbols", () => {
-  const unique = v.string().unique(5, ERROR_MESSAGE);
-  const coerceUnique = v.coerce.string().unique(5, ERROR_MESSAGE);
+  const unique = v.string().unique(5, {
+    message: ERROR_MESSAGE,
+  });
+  const coerceUnique = v.coerce.string().unique(5, {
+    message: ERROR_MESSAGE,
+  });
 
   it("Without coerce", () => {
     expect(unique.validate("1234")).toBe(ERROR_MESSAGE);
