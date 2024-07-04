@@ -1,5 +1,6 @@
+import { VesoRecord } from "../utils";
 export * from "./required";
-export * from "./int";
+export * from "./integer";
 export * from "./min";
 export * from "./max";
 export * from "./multipleOf";
@@ -7,23 +8,43 @@ export * from "./notIn";
 
 export type VesoNumberValueTypes = "number" | "null" | "undefined";
 
+type VesoNumberMethod = VesoRecord["NUMBER"];
+
+type VesoCheckSettings = {
+  message?: string;
+  validateIf?: boolean | (() => boolean);
+};
+
+type VesoBaseCheck<T extends Record<string, unknown> = {}> = {
+  settings: VesoCheckSettings & T;
+  method?: VesoNumberMethod;
+  data?: Record<string, unknown>;
+};
+
+export const DEFAULT_SETTINGS: VesoCheckSettings = {
+  validateIf: true,
+};
+
 export type VesoNumberCheck =
-  | { type: "required"; message: string }
-  | { type: "int"; message: string }
-  | { type: "multipleOf"; value: number; message: string }
-  | {
+  | ({ type: "required" } & VesoBaseCheck)
+  | ({ type: "integer" } & VesoBaseCheck)
+  | ({ type: "multipleOf"; value: number } & VesoBaseCheck)
+  | ({
       type: "min";
       value: number;
       inclusive: boolean;
-      message: string;
-    }
-  | {
+    } & VesoBaseCheck)
+  | ({
       type: "max";
       value: number;
       inclusive: boolean;
-      message: string;
-    }
-  | { type: "notIn"; value: number[]; message: string };
+    } & VesoBaseCheck)
+  | ({ type: "notIn"; value: number[] } & VesoBaseCheck);
+
+export type VesoGetSettings<K extends VesoNumberCheck["type"]> = Extract<
+  VesoNumberCheck,
+  { type: K }
+>["settings"];
 
 export type VesoNumberConstructor = {
   check?: VesoNumberCheck[];

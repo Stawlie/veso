@@ -68,10 +68,10 @@ export type VesoStringCheck =
       value: string[];
     } & VesoBaseCheck);
 
-export type VesoGetSettings<K extends VesoStringCheck["type"]> = Omit<
-  Extract<VesoStringCheck, { type: K }>["settings"],
-  "message"
-> & { message?: string };
+export type VesoGetSettings<K extends VesoStringCheck["type"]> = Extract<
+  VesoStringCheck,
+  { type: K }
+>["settings"];
 
 export type VesoStringConstructor = {
   check?: VesoStringCheck[];

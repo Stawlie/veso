@@ -41,6 +41,7 @@ export class VesoString {
     return this._addCheck({
       type: "minLength",
       value: minLength,
+      data: { minLength },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -55,6 +56,7 @@ export class VesoString {
     return this._addCheck({
       type: "maxLength",
       value: maxLength,
+      data: { maxLength },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -69,6 +71,7 @@ export class VesoString {
     return this._addCheck({
       type: "exactLength",
       value: exactLength,
+      data: { exactLength },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -83,6 +86,7 @@ export class VesoString {
     return this._addCheck({
       type: "startsWith",
       value: startsWith,
+      data: { startsWith },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -97,6 +101,7 @@ export class VesoString {
     return this._addCheck({
       type: "endsWith",
       value: endsWith,
+      data: { endsWith },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -111,6 +116,7 @@ export class VesoString {
     return this._addCheck({
       type: "includes",
       value: includes,
+      data: { includes },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -122,6 +128,7 @@ export class VesoString {
     return this._addCheck({
       type: "regex",
       value: regex,
+      data: { regex },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -185,6 +192,7 @@ export class VesoString {
     return this._addCheck({
       type: "unique",
       value: unique,
+      data: { unique },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,
@@ -244,6 +252,7 @@ export class VesoString {
     return this._addCheck({
       type: "notIn",
       value: notIn,
+      data: { notIn },
       settings: {
         ...UTILS.DEFAULT_SETTINGS,
         ...settings,

@@ -1,5 +1,5 @@
 import { VesoValueTypes, getValueType, EMPTY_VALUES } from "../utils";
-import { useTranslate } from "../translate";
+import { useTranslate, UseTranslateSettings } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoDate {
@@ -24,75 +24,75 @@ export class VesoDate {
     return this;
   }
 
-  public required(message?: string) {
+  public required(settings?: UTILS.VesoGetSettings<"required">) {
     return this._addCheck({
       type: "required",
-      message: useTranslate({
-        name: "DATE",
-        method: "required",
-        message,
-      }),
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public min(min: number, message?: string) {
+  public min(min: number, settings?: UTILS.VesoGetSettings<"min">) {
     return this._addCheck({
       type: "min",
-      message: useTranslate({
-        name: "DATE",
-        method: "min",
-        data: { min },
-        message,
-      }),
       value: min,
+      data: { min },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public max(max: number, message?: string) {
+  public max(max: number, settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
-      message: useTranslate({
-        name: "DATE",
-        method: "max",
-        data: { max },
-        message,
-      }),
       value: max,
+      data: { max },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public between(min: number, max: number, message?: string) {
+  public between(
+    min: number,
+    max: number,
+    settings?: UTILS.VesoGetSettings<"min"> | UTILS.VesoGetSettings<"max">
+  ) {
     return this._addCheck({
       type: "min",
-      message: useTranslate({
-        name: "DATE",
-        method: "between",
-        data: { min, max },
-        message,
-      }),
+      method: "between",
       value: min,
+      data: { min, max },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     })._addCheck({
       type: "max",
-      message: useTranslate({
-        name: "DATE",
-        method: "between",
-        data: { min, max },
-        message,
-      }),
+      method: "between",
       value: max,
+      data: { min, max },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public notIn(notIn: Date[], message?: string) {
+  public notIn(notIn: Date[], settings?: UTILS.VesoGetSettings<"notIn">) {
     return this._addCheck({
       type: "notIn",
-      message: useTranslate({
-        name: "DATE",
-        method: "notIn",
-        data: { notIn },
-        message,
-      }),
       value: notIn,
+      data: { notIn },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
@@ -127,13 +127,34 @@ export class VesoDate {
     }
 
     loop: for (const check of this._check) {
+      if (
+        !check.settings.validateIf &&
+        check.settings.validateIf !== undefined
+      ) {
+        continue;
+      }
+
+      if (
+        typeof check.settings.validateIf === "function" &&
+        !check.settings.validateIf()
+      ) {
+        continue;
+      }
+
+      const message: UseTranslateSettings<"DATE"> = {
+        name: "DATE",
+        method: check.method || check.type,
+        data: check.data,
+        message: check.settings.message,
+      };
+
       switch (check.type) {
         case "required": {
           if (UTILS.required(value, valueType)) {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -142,7 +163,7 @@ export class VesoDate {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -151,7 +172,7 @@ export class VesoDate {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -160,7 +181,7 @@ export class VesoDate {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 

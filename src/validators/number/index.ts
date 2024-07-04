@@ -1,5 +1,5 @@
 import { VesoValueTypes, getValueType, EMPTY_VALUES } from "../utils";
-import { useTranslate } from "../translate";
+import { useTranslate, UseTranslateSettings } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoNumber {
@@ -24,177 +24,180 @@ export class VesoNumber {
     return this;
   }
 
-  public required(message?: string) {
+  public required(settings?: UTILS.VesoGetSettings<"required">) {
     return this._addCheck({
       type: "required",
-      message: useTranslate({
-        name: "NUMBER",
-        method: "required",
-        message,
-      }),
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public min(min: number, message?: string) {
+  public min(min: number, settings?: UTILS.VesoGetSettings<"min">) {
     return this._addCheck({
       type: "min",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "min",
-        data: { min },
-        message,
-      }),
       value: min,
+      data: { min },
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public max(max: number, message?: string) {
+  public max(max: number, settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "max",
-        data: { max },
-        message,
-      }),
       value: max,
+      data: { max },
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public between(min: number, max: number, message?: string) {
+  public between(
+    min: number,
+    max: number,
+    settings?: UTILS.VesoGetSettings<"min"> | UTILS.VesoGetSettings<"max">
+  ) {
     return this._addCheck({
       type: "min",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "between",
-        data: { min, max },
-        message,
-      }),
+      method: "between",
       value: min,
+      data: { min, max },
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     })._addCheck({
       type: "max",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "between",
-        data: { min, max },
-        message,
-      }),
+      method: "between",
       value: max,
+      data: { min, max },
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public positive(message?: string) {
+  public positive(settings?: UTILS.VesoGetSettings<"min">) {
     return this._addCheck({
       type: "min",
-      inclusive: false,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "positive",
-        message,
-      }),
+      method: "positive",
       value: 0,
+      inclusive: false,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public negative(message?: string) {
+  public negative(settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
-      inclusive: false,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "negative",
-        message,
-      }),
+      method: "negative",
       value: 0,
+      inclusive: false,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public nonpositive(message?: string) {
+  public nonpositive(settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
+      method: "nonnegative",
+      value: 0,
       inclusive: true,
-      value: 0,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "nonpositive",
-        message,
-      }),
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public nonnegative(message?: string) {
+  public nonnegative(settings?: UTILS.VesoGetSettings<"min">) {
     return this._addCheck({
       type: "min",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "nonnegative",
-        message,
-      }),
+      method: "nonnegative",
       value: 0,
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public multipleOf(multipleOf: number, message?: string) {
+  public multipleOf(
+    multipleOf: number,
+    settings?: UTILS.VesoGetSettings<"multipleOf">
+  ) {
     return this._addCheck({
       type: "multipleOf",
-      message: useTranslate({
-        name: "NUMBER",
-        method: "multipleOf",
-        data: { multipleOf },
-        message,
-      }),
       value: multipleOf,
+      data: { multipleOf },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public safe(message?: string) {
+  public safe(
+    settings?: UTILS.VesoGetSettings<"min"> | UTILS.VesoGetSettings<"max">
+  ) {
     return this._addCheck({
       type: "min",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "safe",
-        message,
-      }),
+      method: "safe",
       value: Number.MIN_SAFE_INTEGER,
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     })._addCheck({
       type: "max",
-      inclusive: true,
-      message: useTranslate({
-        name: "NUMBER",
-        method: "safe",
-        message,
-      }),
+      method: "safe",
       value: Number.MAX_SAFE_INTEGER,
+      inclusive: true,
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public integer(message?: string) {
+  public integer(settings?: UTILS.VesoGetSettings<"integer">) {
     return this._addCheck({
-      type: "int",
-      message: useTranslate({
-        name: "NUMBER",
-        method: "integer",
-        message,
-      }),
+      type: "integer",
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public notIn(notIn: number[], message?: string) {
+  public notIn(notIn: number[], settings?: UTILS.VesoGetSettings<"notIn">) {
     return this._addCheck({
       type: "notIn",
-      message: useTranslate({
-        name: "NUMBER",
-        method: "notIn",
-        data: { notIn },
-        message,
-      }),
       value: notIn,
+      data: { notIn },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
@@ -229,22 +232,43 @@ export class VesoNumber {
     }
 
     loop: for (const check of this._check) {
+      if (
+        !check.settings.validateIf &&
+        check.settings.validateIf !== undefined
+      ) {
+        continue;
+      }
+
+      if (
+        typeof check.settings.validateIf === "function" &&
+        !check.settings.validateIf()
+      ) {
+        continue;
+      }
+
+      const message: UseTranslateSettings<"NUMBER"> = {
+        name: "NUMBER",
+        method: check.method || check.type,
+        data: check.data,
+        message: check.settings.message,
+      };
+
       switch (check.type) {
         case "required": {
           if (UTILS.required(valueType)) {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
-        case "int": {
-          if (UTILS.int(value)) {
+        case "integer": {
+          if (UTILS.integer(value)) {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -253,7 +277,7 @@ export class VesoNumber {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -262,7 +286,7 @@ export class VesoNumber {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -271,7 +295,7 @@ export class VesoNumber {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -280,7 +304,7 @@ export class VesoNumber {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 

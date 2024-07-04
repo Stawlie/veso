@@ -1,3 +1,3 @@
-export function int(value: any) {
+export function integer(value: any) {
   return Math.floor(value) === value;
 }

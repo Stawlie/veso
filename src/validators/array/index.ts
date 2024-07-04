@@ -1,5 +1,5 @@
 import { VesoValueTypes, getValueType, EMPTY_VALUES } from "../utils";
-import { useTranslate } from "../translate";
+import { useTranslate, UseTranslateSettings } from "../translate";
 import * as UTILS from "./utils";
 
 export class VesoArray {
@@ -28,53 +28,58 @@ export class VesoArray {
     return this;
   }
 
-  public required(message?: string) {
+  public required(settings?: UTILS.VesoGetSettings<"required">) {
     return this._addCheck({
       type: "required",
-      message: useTranslate({
-        name: "ARRAY",
-        method: "required",
-        message,
-      }),
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public minLength(minLength: number, message?: string) {
+  public minLength(
+    minLength: number,
+    settings?: UTILS.VesoGetSettings<"minLength">
+  ) {
     return this._addCheck({
       type: "minLength",
-      message: useTranslate({
-        name: "ARRAY",
-        method: "minLength",
-        data: { minLength },
-        message,
-      }),
       value: minLength,
+      data: { minLength },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public maxLength(maxLength: number, message?: string) {
+  public maxLength(
+    maxLength: number,
+    settings?: UTILS.VesoGetSettings<"maxLength">
+  ) {
     return this._addCheck({
       type: "maxLength",
-      message: useTranslate({
-        name: "ARRAY",
-        method: "maxLength",
-        data: { maxLength },
-        message,
-      }),
       value: maxLength,
+      data: { maxLength },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
-  public exactLength(exactLength: number, message?: string) {
+  public exactLength(
+    exactLength: number,
+    settings?: UTILS.VesoGetSettings<"exactLength">
+  ) {
     return this._addCheck({
       type: "exactLength",
-      message: useTranslate({
-        name: "ARRAY",
-        method: "exactLength",
-        data: { exactLength },
-        message,
-      }),
       value: exactLength,
+      data: { exactLength },
+      settings: {
+        ...UTILS.DEFAULT_SETTINGS,
+        ...settings,
+      },
     });
   }
 
@@ -105,13 +110,34 @@ export class VesoArray {
     }
 
     loop: for (const check of this._check) {
+      if (
+        !check.settings.validateIf &&
+        check.settings.validateIf !== undefined
+      ) {
+        continue;
+      }
+
+      if (
+        typeof check.settings.validateIf === "function" &&
+        !check.settings.validateIf()
+      ) {
+        continue;
+      }
+
+      const message: UseTranslateSettings<"ARRAY"> = {
+        name: "ARRAY",
+        method: check.method || check.type,
+        data: check.data,
+        message: check.settings.message,
+      };
+
       switch (check.type) {
         case "required": {
           if (UTILS.required(value, valueType)) {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -120,7 +146,7 @@ export class VesoArray {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -129,7 +155,7 @@ export class VesoArray {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
@@ -138,7 +164,7 @@ export class VesoArray {
             break;
           }
 
-          this._validationIssue = check.message;
+          this._validationIssue = useTranslate(message);
           break loop;
         }
 
