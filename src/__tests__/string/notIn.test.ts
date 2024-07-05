@@ -1,4 +1,6 @@
-import { v } from "veso";
+import { v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+import { insertParams, setMap, setTranslate } from "../../validators/translate";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -68,4 +70,56 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceNotInBoolean.validate("123")).toBe(true);
     expect(coerceNotInFunction.validate("123")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().notIn(["test1", "3"]).validate("test1")).toBe(
+      insertParams(DEFAULT_MAP.STRING.notIn, { notIn: ["test1", "3"] })
+    );
+    expect(v.coerce.string().notIn(["test1", "3"]).validate(3)).toBe(
+      insertParams(DEFAULT_MAP.STRING.notIn, { notIn: ["test1", "3"] })
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        notIn: "NotIn!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().notIn(["test1", "3"]).validate("test1")).toBe(
+      MAP.STRING.notIn
+    );
+    expect(v.coerce.string().notIn(["test1", "3"]).validate(3)).toBe(
+      MAP.STRING.notIn
+    );
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.notIn") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().notIn(["test1", "3"]).validate("test1")).toBe(
+      TRANSLATE("VESO.STRING.notIn")
+    );
+    expect(v.coerce.string().notIn(["test1", "3"]).validate(3)).toBe(
+      TRANSLATE("VESO.STRING.notIn")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

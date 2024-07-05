@@ -1,4 +1,6 @@
-import { v } from "veso";
+import { v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+import { insertParams, setMap, setTranslate } from "../../validators/translate";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -72,4 +74,56 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceStartsWithBoolean.validate("rest")).toBe(true);
     expect(coerceStartsWithFunction.validate("rest")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().startsWith("123").validate("текст")).toBe(
+      insertParams(DEFAULT_MAP.STRING.startsWith, { startsWith: "123" })
+    );
+    expect(v.coerce.string().startsWith("123").validate(534.3)).toBe(
+      insertParams(DEFAULT_MAP.STRING.startsWith, { startsWith: "123" })
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        startsWith: "StartsWith!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().startsWith("123").validate("текст")).toBe(
+      MAP.STRING.startsWith
+    );
+    expect(v.coerce.string().startsWith("123").validate(534.3)).toBe(
+      MAP.STRING.startsWith
+    );
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.startsWith") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().startsWith("123").validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.startsWith")
+    );
+    expect(v.coerce.string().startsWith("123").validate(534.3)).toBe(
+      TRANSLATE("VESO.STRING.startsWith")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

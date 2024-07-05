@@ -1,4 +1,6 @@
-import { v } from "veso";
+import { v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+import { insertParams, setMap, setTranslate } from "../../validators/translate";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -70,4 +72,52 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceUniqueBoolean.validate("ntntntnt")).toBe(true);
     expect(coerceUniqueFunction.validate("ntntntnt")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().unique(3).validate("тет")).toBe(
+      insertParams(DEFAULT_MAP.STRING.unique, { unique: 3 })
+    );
+    expect(v.coerce.string().unique(3).validate(533)).toBe(
+      insertParams(DEFAULT_MAP.STRING.unique, { unique: 3 })
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        unique: "Unique!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().unique(3).validate("тет")).toBe(MAP.STRING.unique);
+    expect(v.coerce.string().unique(3).validate(533)).toBe(MAP.STRING.unique);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.unique") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().unique(3).validate("тет")).toBe(
+      TRANSLATE("VESO.STRING.unique")
+    );
+    expect(v.coerce.string().unique(3).validate(533)).toBe(
+      TRANSLATE("VESO.STRING.unique")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -74,4 +75,50 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceHexBoolean.validate("amianhex?")).toBe(true);
     expect(coerceHexFunction.validate("amianhex?")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().hex().validate("текст")).toBe(DEFAULT_MAP.STRING.hex);
+    expect(v.coerce.string().hex().validate(534.3)).toBe(
+      DEFAULT_MAP.STRING.hex
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        hex: "Hex!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().hex().validate("текст")).toBe(MAP.STRING.hex);
+    expect(v.coerce.string().hex().validate(534.3)).toBe(MAP.STRING.hex);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.hex") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().hex().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.hex")
+    );
+    expect(v.coerce.string().hex().validate(534.3)).toBe(
+      TRANSLATE("VESO.STRING.hex")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

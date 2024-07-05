@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -77,4 +78,54 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceNumericBoolean.validate("numeric")).toBe(true);
     expect(coerceNumericFunction.validate("numeric")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().numeric().validate("текст")).toBe(
+      DEFAULT_MAP.STRING.numeric
+    );
+    expect(v.coerce.string().numeric().validate("текст")).toBe(
+      DEFAULT_MAP.STRING.numeric
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        numeric: "Numeric!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().numeric().validate("текст")).toBe(MAP.STRING.numeric);
+    expect(v.coerce.string().numeric().validate("текст")).toBe(
+      MAP.STRING.numeric
+    );
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.numeric") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().numeric().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.numeric")
+    );
+    expect(v.coerce.string().numeric().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.numeric")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

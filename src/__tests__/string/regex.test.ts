@@ -1,4 +1,6 @@
-import { v } from "veso";
+import { v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+import { insertParams, setMap, setTranslate } from "../../validators/translate";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -68,4 +70,74 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceRegexBoolean.validate("regex")).toBe(true);
     expect(coerceRegexFunction.validate("regex")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(
+      v
+        .string()
+        .regex(/^test321$/)
+        .validate("текст")
+    ).toBe(insertParams(DEFAULT_MAP.STRING.regex, { regex: /^test321$/ }));
+    expect(
+      v.coerce
+        .string()
+        .regex(/^test321$/)
+        .validate(534.3)
+    ).toBe(insertParams(DEFAULT_MAP.STRING.regex, { regex: /^test321$/ }));
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        regex: "ExactLength!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(
+      v
+        .string()
+        .regex(/^test321$/)
+        .validate("текст")
+    ).toBe(MAP.STRING.regex);
+    expect(
+      v.coerce
+        .string()
+        .regex(/^test321$/)
+        .validate(534.3)
+    ).toBe(MAP.STRING.regex);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.regex") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(
+      v
+        .string()
+        .regex(/^test321$/)
+        .validate("текст")
+    ).toBe(TRANSLATE("VESO.STRING.regex"));
+    expect(
+      v.coerce
+        .string()
+        .regex(/^test321$/)
+        .validate(534.3)
+    ).toBe(TRANSLATE("VESO.STRING.regex"));
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

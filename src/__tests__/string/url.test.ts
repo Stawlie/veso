@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -72,4 +73,50 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceUrlBoolean.validate("rest")).toBe(true);
     expect(coerceUrlFunction.validate("rest")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().url().validate("текст")).toBe(DEFAULT_MAP.STRING.url);
+    expect(v.coerce.string().url().validate("текст")).toBe(
+      DEFAULT_MAP.STRING.url
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        url: "Url!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().url().validate("текст")).toBe(MAP.STRING.url);
+    expect(v.coerce.string().url().validate("текст")).toBe(MAP.STRING.url);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.url") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().url().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.url")
+    );
+    expect(v.coerce.string().url().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.url")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

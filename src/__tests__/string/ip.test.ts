@@ -1,4 +1,6 @@
-import { v } from "veso";
+import { v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
+import { insertParams, setMap, setTranslate } from "../../validators/translate";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -130,4 +132,102 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceIpV4Function.validate("ip")).toBe(true);
     expect(coerceIpV6Function.validate("ip")).toBe(true);
   });
+});
+
+describe("Does not validate when validateIf: false", () => {
+  const hexBoolean = v.string().hex({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const hexFunction = v.string().hex({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceHexBoolean = v.coerce.string().hex({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceHexFunction = v.coerce.string().hex({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(hexBoolean.validate("notanhex")).toBe(true);
+    expect(hexFunction.validate("notanhex")).toBe(true);
+    expect(hexBoolean.validate("amianhex?")).toBe(true);
+    expect(hexFunction.validate("amianhex?")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceHexBoolean.validate("notanhex")).toBe(true);
+    expect(coerceHexFunction.validate("notanhex")).toBe(true);
+    expect(coerceHexBoolean.validate("amianhex?")).toBe(true);
+    expect(coerceHexFunction.validate("amianhex?")).toBe(true);
+  });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().ip("v4").validate("текст")).toBe(
+      insertParams(DEFAULT_MAP.STRING.ip, { ip: "v4" })
+    );
+    expect(v.string().ip("v6").validate("текст")).toBe(
+      insertParams(DEFAULT_MAP.STRING.ip, { ip: "v6" })
+    );
+    expect(v.coerce.string().ip("v4").validate(534.3)).toBe(
+      insertParams(DEFAULT_MAP.STRING.ip, { ip: "v4" })
+    );
+    expect(v.coerce.string().ip("v6").validate(534.3)).toBe(
+      insertParams(DEFAULT_MAP.STRING.ip, { ip: "v6" })
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        ip: "Hex!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().ip("v4").validate("текст")).toBe(MAP.STRING.ip);
+    expect(v.string().ip("v6").validate("текст")).toBe(MAP.STRING.ip);
+    expect(v.coerce.string().ip("v4").validate(534.3)).toBe(MAP.STRING.ip);
+    expect(v.coerce.string().ip("v6").validate(534.3)).toBe(MAP.STRING.ip);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.ip") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().ip("v4").validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.ip")
+    );
+    expect(v.string().ip("v6").validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.ip")
+    );
+    expect(v.coerce.string().ip("v4").validate(534.3)).toBe(
+      TRANSLATE("VESO.STRING.ip")
+    );
+    expect(v.coerce.string().ip("v6").validate(534.3)).toBe(
+      TRANSLATE("VESO.STRING.ip")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -70,4 +71,50 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceMacBoolean.validate("mac")).toBe(true);
     expect(coerceMacFunction.validate("mac")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().mac().validate("текст")).toBe(DEFAULT_MAP.STRING.mac);
+    expect(v.coerce.string().mac().validate(534.3)).toBe(
+      DEFAULT_MAP.STRING.mac
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        mac: "Mac!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().mac().validate("текст")).toBe(MAP.STRING.mac);
+    expect(v.coerce.string().mac().validate(534.3)).toBe(MAP.STRING.mac);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.mac") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().mac().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.mac")
+    );
+    expect(v.coerce.string().mac().validate(534.3)).toBe(
+      TRANSLATE("VESO.STRING.mac")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

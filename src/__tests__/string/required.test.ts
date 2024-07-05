@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -134,4 +135,54 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceRequiredBoolean.validate("")).toBe(true);
     expect(coerceRequiredFunction.validate("")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().required().validate("")).toBe(
+      DEFAULT_MAP.STRING.required
+    );
+    expect(v.coerce.string().required().validate(null)).toBe(
+      DEFAULT_MAP.STRING.required
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        required: "Required!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().required().validate("")).toBe(MAP.STRING.required);
+    expect(v.coerce.string().required().validate(null)).toBe(
+      MAP.STRING.required
+    );
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.required") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().required().validate("")).toBe(
+      TRANSLATE("VESO.STRING.required")
+    );
+    expect(v.coerce.string().required().validate(null)).toBe(
+      TRANSLATE("VESO.STRING.required")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });
