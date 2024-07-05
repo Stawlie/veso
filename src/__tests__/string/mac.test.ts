@@ -35,3 +35,39 @@ describe("Validates not mac", () => {
     expect(coerceMac.validate("any string")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const macBoolean = v.string().mac({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const macFunction = v.string().mac({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceMacBoolean = v.coerce.string().mac({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceMacFunction = v.coerce.string().mac({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(macBoolean.validate("badstring")).toBe(true);
+    expect(macFunction.validate("badstring")).toBe(true);
+    expect(macBoolean.validate("mac")).toBe(true);
+    expect(macFunction.validate("mac")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceMacBoolean.validate("badstring")).toBe(true);
+    expect(coerceMacFunction.validate("badstring")).toBe(true);
+    expect(coerceMacBoolean.validate("mac")).toBe(true);
+    expect(coerceMacFunction.validate("mac")).toBe(true);
+  });
+});

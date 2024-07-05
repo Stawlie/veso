@@ -43,3 +43,39 @@ describe("Validates higher minLength", () => {
     expect(coerceMinLength.validate("123456")).toBe(true);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const minLengthBoolean = v.string().minLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const minLengthFunction = v.string().minLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceMinLengthBoolean = v.coerce.string().minLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceMinLengthFunction = v.coerce.string().minLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(minLengthBoolean.validate("not")).toBe(true);
+    expect(minLengthFunction.validate("not")).toBe(true);
+    expect(minLengthBoolean.validate("ami?")).toBe(true);
+    expect(minLengthFunction.validate("ami?")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceMinLengthBoolean.validate("not")).toBe(true);
+    expect(coerceMinLengthFunction.validate("not")).toBe(true);
+    expect(coerceMinLengthBoolean.validate("ami?")).toBe(true);
+    expect(coerceMinLengthFunction.validate("ami?")).toBe(true);
+  });
+});

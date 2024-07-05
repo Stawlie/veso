@@ -67,3 +67,67 @@ describe("Validates not ipv6", () => {
     expect(coerceIp.validate("notipv6")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const ipV4Boolean = v.string().ip("v4", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const ipV6Boolean = v.string().ip("v6", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const ipV4Function = v.string().ip("v4", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const ipV6Function = v.string().ip("v6", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceIpV4Boolean = v.coerce.string().ip("v4", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceIpV6Boolean = v.coerce.string().ip("v6", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceIpV4Function = v.coerce.string().ip("v4", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceIpV6Function = v.coerce.string().ip("v6", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(ipV4Boolean.validate("badstring")).toBe(true);
+    expect(ipV6Boolean.validate("badstring")).toBe(true);
+    expect(ipV4Function.validate("badstring")).toBe(true);
+    expect(ipV6Function.validate("badstring")).toBe(true);
+    expect(ipV4Boolean.validate("ip")).toBe(true);
+    expect(ipV6Boolean.validate("ip")).toBe(true);
+    expect(ipV4Function.validate("ip")).toBe(true);
+    expect(ipV6Function.validate("ip")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceIpV4Boolean.validate("badstring")).toBe(true);
+    expect(coerceIpV6Boolean.validate("badstring")).toBe(true);
+    expect(coerceIpV4Function.validate("badstring")).toBe(true);
+    expect(coerceIpV6Function.validate("badstring")).toBe(true);
+    expect(coerceIpV4Boolean.validate("ip")).toBe(true);
+    expect(coerceIpV6Boolean.validate("ip")).toBe(true);
+    expect(coerceIpV4Function.validate("ip")).toBe(true);
+    expect(coerceIpV6Function.validate("ip")).toBe(true);
+  });
+});

@@ -42,3 +42,39 @@ describe("Validates not numeric values", () => {
     expect(coerceNumeric.validate("+321")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const numericBoolean = v.string().numeric({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const numericFunction = v.string().numeric({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceNumericBoolean = v.coerce.string().numeric({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceNumericFunction = v.coerce.string().numeric({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(numericBoolean.validate("badstring")).toBe(true);
+    expect(numericFunction.validate("badstring")).toBe(true);
+    expect(numericBoolean.validate("numeric")).toBe(true);
+    expect(numericFunction.validate("numeric")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceNumericBoolean.validate("badstring")).toBe(true);
+    expect(coerceNumericFunction.validate("badstring")).toBe(true);
+    expect(coerceNumericBoolean.validate("numeric")).toBe(true);
+    expect(coerceNumericFunction.validate("numeric")).toBe(true);
+  });
+});

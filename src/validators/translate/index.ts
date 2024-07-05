@@ -13,7 +13,7 @@ export function setMap(newMap: VesoMap | null) {
   map = newMap || DEFAULT_MAP;
 }
 
-function insertParams(message: string, data?: Record<string, unknown>) {
+export function insertParams(message: string, data?: Record<string, unknown>) {
   if (!data) {
     return message;
   }

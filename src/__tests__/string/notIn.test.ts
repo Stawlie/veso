@@ -33,3 +33,39 @@ describe("Validates in array", () => {
     expect(coerceNotIn.validate("test2")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const notInBoolean = v.string().notIn(["321", "123"], {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const notInFunction = v.string().notIn(["321", "123"], {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceNotInBoolean = v.coerce.string().notIn(["321", "123"], {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceNotInFunction = v.coerce.string().notIn(["321", "123"], {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(notInBoolean.validate("321")).toBe(true);
+    expect(notInFunction.validate("321")).toBe(true);
+    expect(notInBoolean.validate("123")).toBe(true);
+    expect(notInFunction.validate("123")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceNotInBoolean.validate("321")).toBe(true);
+    expect(coerceNotInFunction.validate("321")).toBe(true);
+    expect(coerceNotInBoolean.validate("123")).toBe(true);
+    expect(coerceNotInFunction.validate("123")).toBe(true);
+  });
+});

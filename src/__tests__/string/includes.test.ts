@@ -37,3 +37,39 @@ describe("Validates when not includes", () => {
     expect(coerceIncludes.validate("rest")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const includesBoolean = v.string().includes("123", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const includesFunction = v.string().includes("123", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceIncludesBoolean = v.coerce.string().includes("123", {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceIncludesFunction = v.coerce.string().includes("123", {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(includesBoolean.validate("badstring")).toBe(true);
+    expect(includesFunction.validate("badstring")).toBe(true);
+    expect(includesBoolean.validate("includes")).toBe(true);
+    expect(includesFunction.validate("includes")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceIncludesBoolean.validate("badstring")).toBe(true);
+    expect(coerceIncludesFunction.validate("badstring")).toBe(true);
+    expect(coerceIncludesBoolean.validate("includes")).toBe(true);
+    expect(coerceIncludesFunction.validate("includes")).toBe(true);
+  });
+});

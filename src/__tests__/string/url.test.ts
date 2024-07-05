@@ -37,3 +37,39 @@ describe("Validates not url", () => {
     expect(coerceUrl.validate("http://test.")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const urlBoolean = v.string().url({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const urlFunction = v.string().url({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceUrlBoolean = v.coerce.string().url({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceUrlFunction = v.coerce.string().url({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(urlBoolean.validate("notttesting")).toBe(true);
+    expect(urlFunction.validate("notttesting")).toBe(true);
+    expect(urlBoolean.validate("rest")).toBe(true);
+    expect(urlFunction.validate("rest")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceUrlBoolean.validate("notttesting")).toBe(true);
+    expect(coerceUrlFunction.validate("notttesting")).toBe(true);
+    expect(coerceUrlBoolean.validate("rest")).toBe(true);
+    expect(coerceUrlFunction.validate("rest")).toBe(true);
+  });
+});

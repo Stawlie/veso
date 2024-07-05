@@ -1,4 +1,5 @@
-import { v } from "veso";
+import { VesoMap, VesoTranslateFunction, setMap, setTranslate, v } from "veso";
+import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
 
@@ -80,4 +81,50 @@ describe("Does not validate when validateIf: false", () => {
     expect(coerceAlphaBoolean.validate("Это текст на русском?")).toBe(true);
     expect(coerceAlphaFunction.validate("Это текст на русском?")).toBe(true);
   });
+});
+
+describe("Returns right error messages", () => {
+  it("Default message", () => {
+    expect(v.string().alpha().validate("текст")).toBe(DEFAULT_MAP.STRING.alpha);
+    expect(v.coerce.string().alpha().validate(534)).toBe(
+      DEFAULT_MAP.STRING.alpha
+    );
+  });
+
+  it("MAP message", () => {
+    const MAP = {
+      STRING: {
+        alpha: "Alpha!",
+      },
+    } satisfies VesoMap;
+
+    setMap(MAP);
+
+    expect(v.string().alpha().validate("текст")).toBe(MAP.STRING.alpha);
+    expect(v.coerce.string().alpha().validate(534)).toBe(MAP.STRING.alpha);
+  });
+
+  it("TRANSLATE message", () => {
+    const TRANSLATE: VesoTranslateFunction = (key) => {
+      if (key === "VESO.STRING.alpha") {
+        return "Custom message!";
+      }
+
+      return "Something else!";
+    };
+
+    setTranslate(TRANSLATE);
+
+    expect(v.string().alpha().validate("текст")).toBe(
+      TRANSLATE("VESO.STRING.alpha")
+    );
+    expect(v.coerce.string().alpha().validate(534)).toBe(
+      TRANSLATE("VESO.STRING.alpha")
+    );
+  });
+});
+
+afterAll(() => {
+  setMap(null);
+  setTranslate(null);
 });

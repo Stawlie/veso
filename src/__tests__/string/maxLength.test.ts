@@ -43,3 +43,39 @@ describe("Validates higher maxLength", () => {
     expect(coerceMaxLength.validate("123456")).toBe(ERROR_MESSAGE);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const maxLengthBoolean = v.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const maxLengthFunction = v.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceMaxLengthBoolean = v.coerce.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceMaxLengthFunction = v.coerce.string().maxLength(5, {
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(maxLengthBoolean.validate("notanmaxLength")).toBe(true);
+    expect(maxLengthFunction.validate("notanmaxLength")).toBe(true);
+    expect(maxLengthBoolean.validate("amianmaxLength?")).toBe(true);
+    expect(maxLengthFunction.validate("amianmaxLength?")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceMaxLengthBoolean.validate("notanmaxLength")).toBe(true);
+    expect(coerceMaxLengthFunction.validate("notanmaxLength")).toBe(true);
+    expect(coerceMaxLengthBoolean.validate("amianmaxLength?")).toBe(true);
+    expect(coerceMaxLengthFunction.validate("amianmaxLength?")).toBe(true);
+  });
+});

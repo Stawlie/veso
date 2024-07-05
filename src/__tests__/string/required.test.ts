@@ -103,3 +103,35 @@ describe("Validates any non-empty string", () => {
     expect(coerceRequired.validate("anynonemptystring")).toBe(true);
   });
 });
+
+describe("Does not validate when validateIf: false", () => {
+  const requiredBoolean = v.string().required({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const requiredFunction = v.string().required({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  const coerceRequiredBoolean = v.coerce.string().required({
+    message: ERROR_MESSAGE,
+    validateIf: false,
+  });
+
+  const coerceRequiredFunction = v.coerce.string().required({
+    message: ERROR_MESSAGE,
+    validateIf: () => false,
+  });
+
+  it("Without coerce", () => {
+    expect(requiredBoolean.validate("")).toBe(true);
+    expect(requiredFunction.validate("")).toBe(true);
+  });
+
+  it("With coerce", () => {
+    expect(coerceRequiredBoolean.validate("")).toBe(true);
+    expect(coerceRequiredFunction.validate("")).toBe(true);
+  });
+});
