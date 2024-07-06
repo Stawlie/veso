@@ -34,7 +34,7 @@ export class VesoDate {
     });
   }
 
-  public min(min: number, settings?: UTILS.VesoGetSettings<"min">) {
+  public min(min: Date, settings?: UTILS.VesoGetSettings<"min">) {
     return this._addCheck({
       type: "min",
       value: min,
@@ -46,7 +46,7 @@ export class VesoDate {
     });
   }
 
-  public max(max: number, settings?: UTILS.VesoGetSettings<"max">) {
+  public max(max: Date, settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
       value: max,
@@ -59,8 +59,8 @@ export class VesoDate {
   }
 
   public between(
-    min: number,
-    max: number,
+    min: Date,
+    max: Date,
     settings?: UTILS.VesoGetSettings<"min"> | UTILS.VesoGetSettings<"max">
   ) {
     return this._addCheck({

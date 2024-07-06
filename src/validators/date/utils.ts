@@ -25,8 +25,8 @@ export const DEFAULT_SETTINGS: VesoCheckSettings = {
 
 export type VesoDateCheck =
   | ({ type: "required" } & VesoBaseCheck)
-  | ({ type: "min"; value: Date | number } & VesoBaseCheck)
-  | ({ type: "max"; value: Date | number } & VesoBaseCheck)
+  | ({ type: "min"; value: Date } & VesoBaseCheck)
+  | ({ type: "max"; value: Date } & VesoBaseCheck)
   | ({ type: "notIn"; value: Date[] } & VesoBaseCheck);
 
 export type VesoGetSettings<K extends VesoDateCheck["type"]> = Extract<

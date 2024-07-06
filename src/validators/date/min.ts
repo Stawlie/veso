@@ -1,3 +1,3 @@
-export function min(value: Date, min: Date | number) {
+export function min(value: Date, min: Date) {
   return value >= min;
 }

@@ -1,3 +1,3 @@
-export function max(value: Date, max: Date | number) {
+export function max(value: Date, max: Date) {
   return value <= max;
 }
