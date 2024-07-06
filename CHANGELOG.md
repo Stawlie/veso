@@ -1,12 +1,59 @@
 # Changelog
 
-## 1.0.0-alpha.10
+## 1.0.0-alpha.11
+
+- Renamed number `int` method to `integer`.
+
+- Huge change in validator additional settings! From now to make custom message you need to pass in `settings object`! Here`s an example:
+
+```ts
+import { v } from "veso";
+
+// Before
+const required = v.string().required("Custom message!");
+
+// After
+const required = v.string().required({ message: "Custom message!" });
+```
+
+It may seem that setting up a validator has become more difficult, but it's not xD.
+This change was made because of the `new feature`, here it is!!!
+
+- Added `validateIf` setting for EVERY validator method! With `validateIf` it become easier to make validation!
+
+Property `validateIf` can be boolean or function that returns boolean.
+
+If validateIf is `false or returns false`, the validator method will be **skipped**!
+
+```ts
+import { v } from "veso";
+
+const required = v.string().required({ validateIf: false });
+
+required.validate(""); // => true
+```
+
+```ts
+import { v } from "veso";
+
+const isRequired = (): boolean => {
+  // Your "required" logic
+};
+
+const required = v.string().required({ validateIf: isRequired });
+
+required.validate(""); // => true (if isRequired function returns false)
+```
+
+- Date validators no longer support parameters as `numbers`, only `Dates` are available.
+
+## Previous Releases
+
+### 1.0.0-alpha.10
 
 - Fixed number `multipleOf` error messages parsing.
 
 - Added check for negatives at string `numeric` method.
-
-## Previous Releases
 
 ### 1.0.0-alpha.9
 

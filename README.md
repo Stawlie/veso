@@ -89,24 +89,26 @@ All validations support custom error message. You can pass in an additional argu
 
 ```ts
 // string validations
-v.string().required("Is required!");
-v.string().minLength(5, "Must be 5 or more characters long!");
-v.string().maxLength(5, "Must be 5 or fewer characters long!");
-v.string().exactLength(5, "Must be exactly 5 characters long!");
-v.string().startsWith("https://", "Must provide secure URL!");
-v.string().endsWith(".ru", "Only .ru domains allowed!");
-v.string().includes("veso", "Must include veso!");
-v.string().regex(/\d/, "Must contain at least one digit!");
-v.string().ip("v6", "Invalid IP address!");
-v.string().mac("Invalid MAC!");
-v.string().email("Invalid email!");
-v.string().url("Invalid URL!");
-v.string().unique(3, "Must include minimum 3 unique characters!");
-v.string().numeric("Must be a number!");
-v.string().alpha("Must include only letters!");
-v.string().alphaNum("Must include only letters and numbers!");
-v.string().hex("Must be hexadecimal!");
-v.string().notIn(["foo", "bar"], "There shouldn't be 'foo' or 'bar'!");
+v.string().required({ message: "Is required!" });
+v.string().minLength(5, { message: "Must be 5 or more characters long!" });
+v.string().maxLength(5, { message: "Must be 5 or fewer characters long!" });
+v.string().exactLength(5, { message: "Must be exactly 5 characters long!" });
+v.string().startsWith("https://", { message: "Must provide secure URL!" });
+v.string().endsWith(".ru", { message: "Only .ru domains allowed!" });
+v.string().includes("veso", { message: "Must include veso!" });
+v.string().regex(/\d/, { message: "Must contain at least one digit!" });
+v.string().ip("v6", { message: "Invalid IP address!" });
+v.string().mac({ message: "Invalid MAC!" });
+v.string().email({ message: "Invalid email!" });
+v.string().url({ message: "Invalid URL!" });
+v.string().unique(3, { message: "Must include minimum 3 unique characters!" });
+v.string().numeric({ message: "Must be a number!" });
+v.string().alpha({ message: "Must include only letters!" });
+v.string().alphaNum({ message: "Must include only letters and numbers!" });
+v.string().hex({ message: "Must be hexadecimal!" });
+v.string().notIn(["foo", "bar"], {
+  message: "There shouldn't be 'foo' or 'bar'!",
+});
 ```
 
 ### IP
@@ -256,13 +258,23 @@ Optionaly, you can pass in an additional argument to provide a custom error mess
 ```ts
 // date validations
 v.date().required();
-v.date().min(Date | number); // >= Date | number
-v.date().max(Date | number); // <= Date | number
-v.date().between(minDate | minNumber, maxDate | maxNumber); // >= minDate | minNumber and <= maxDate | maxNumber
+v.date().min(Date); // >= Date
+v.date().max(Date); // <= Date
+v.date().between(minDate, maxDate); // >= minDate and <= maxDate
 v.date().notIn(Date[]); // Value must not be in an array
 ```
 
 Optionaly, you can pass in an additional argument to provide a custom error message.
+
+## Validator settings
+
+Every validator method has its own settings.
+
+```ts
+// Base settings
+message?: string; // Setting for custom message
+validateIf?: boolean | () => boolean; // Setting for optional validating with this method
+```
 
 ## Coercion
 
