@@ -1,4 +1,4 @@
-import { VesoMap, VesoTranslateFunction, setMap, setTranslate, v } from "veso";
+import { v, setMap, VesoMap, setTranslate, VesoTranslateFunction } from "veso";
 import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";

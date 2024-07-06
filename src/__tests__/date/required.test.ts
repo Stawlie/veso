@@ -1,4 +1,4 @@
-import { setMap, setTranslate, v, VesoMap, VesoTranslateFunction } from "veso";
+import { v, setMap, VesoMap, setTranslate, VesoTranslateFunction } from "veso";
 import { DEFAULT_MAP } from "../../validators/translate/defaultMap";
 
 const ERROR_MESSAGE = "Custom message!";
@@ -77,7 +77,7 @@ describe("Validates undefined", () => {
   });
 });
 
-describe("Validates any number", () => {
+describe("Validates any date", () => {
   const required = v.date().required();
   const coerceRequired = v.coerce.date().required();
 
