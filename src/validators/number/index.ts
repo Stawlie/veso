@@ -117,7 +117,7 @@ export class VesoNumber {
   public nonpositive(settings?: UTILS.VesoGetSettings<"max">) {
     return this._addCheck({
       type: "max",
-      method: "nonnegative",
+      method: "nonpositive",
       value: 0,
       inclusive: true,
       settings: {
@@ -155,6 +155,7 @@ export class VesoNumber {
     });
   }
 
+  // I don't like this one
   public safe(
     settings?: UTILS.VesoGetSettings<"min"> | UTILS.VesoGetSettings<"max">
   ) {
