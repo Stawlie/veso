@@ -80,7 +80,7 @@ export function getValueType(value: any): VesoValueTypes {
   }
 }
 
-export const EMPTY_VALUES = ["", null, undefined];
+export const EMPTY_VALUES = ["", null, undefined] as const;
 
 type VesoValidatorMethod<
   T extends

@@ -24,6 +24,20 @@ export class VesoString {
     return this;
   }
 
+  private _validateCheck(
+    validateIf: UTILS.VesoStringCheck["settings"]["validateIf"]
+  ) {
+    if (validateIf === undefined) {
+      return true;
+    }
+
+    if (typeof validateIf === "boolean") {
+      return validateIf;
+    }
+
+    return validateIf();
+  }
+
   public required(settings?: UTILS.VesoGetSettings<"required">) {
     return this._addCheck({
       type: "required",
@@ -286,22 +300,18 @@ export class VesoString {
     }
 
     // Required check always first
-    if (this._check[0].type !== "required" && EMPTY_VALUES.includes(value)) {
+    if (
+      EMPTY_VALUES.includes(value) &&
+      !(
+        this._check[0].type === "required" &&
+        this._validateCheck(this._check[0].settings.validateIf)
+      )
+    ) {
       return true;
     }
 
     loop: for (const check of this._check) {
-      if (
-        !check.settings.validateIf &&
-        check.settings.validateIf !== undefined
-      ) {
-        continue;
-      }
-
-      if (
-        typeof check.settings.validateIf === "function" &&
-        !check.settings.validateIf()
-      ) {
+      if (!this._validateCheck(check.settings.validateIf)) {
         continue;
       }
 

@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.0-alpha.11
+## 1.0.0-alpha.12
+
+- Fixed validation continuation when `required` methods with `validateIf`: **false** or **() => false**.
+
+## Previous Releases
+
+### 1.0.0-alpha.11
 
 - Renamed number `int` method to `integer`.
 
@@ -46,8 +52,6 @@ required.validate(""); // => true (if isRequired function returns false)
 ```
 
 - Date validators no longer support parameters as `numbers`, only `Dates` are available.
-
-## Previous Releases
 
 ### 1.0.0-alpha.10
 

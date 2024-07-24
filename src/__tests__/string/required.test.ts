@@ -5,37 +5,49 @@ const ERROR_MESSAGE = "Custom message!";
 
 describe("Validates empty string (without required)", () => {
   const required = v.string();
+  const requiredWithMoreChecks = v.string().minLength(5).ip();
   const coerceRequired = v.coerce.string();
+  const coerceRequiredWithMoreChecks = v.string().minLength(5).ip();
 
   it("Without coerce", () => {
     expect(required.validate("")).toBe(true);
+    expect(requiredWithMoreChecks.validate("")).toBe(true);
   });
   it("With coerce", () => {
     expect(coerceRequired.validate("")).toBe(true);
+    expect(coerceRequiredWithMoreChecks.validate("")).toBe(true);
   });
 });
 
 describe("Validates null (without required)", () => {
   const required = v.string();
+  const requiredWithMoreChecks = v.string().minLength(5).ip();
   const coerceRequired = v.coerce.string();
+  const coerceRequiredWithMoreChecks = v.string().minLength(5).ip();
 
   it("Without coerce", () => {
     expect(required.validate(null)).toBe(true);
+    expect(requiredWithMoreChecks.validate(null)).toBe(true);
   });
   it("With coerce", () => {
     expect(coerceRequired.validate(null)).toBe(true);
+    expect(coerceRequiredWithMoreChecks.validate(null)).toBe(true);
   });
 });
 
 describe("Validates undefined (without required)", () => {
   const required = v.string();
+  const requiredWithMoreChecks = v.string().minLength(5).ip();
   const coerceRequired = v.coerce.string();
+  const coerceRequiredWithMoreChecks = v.string().minLength(5).ip();
 
   it("Without coerce", () => {
     expect(required.validate(undefined)).toBe(true);
+    expect(requiredWithMoreChecks.validate(undefined)).toBe(true);
   });
   it("With coerce", () => {
     expect(coerceRequired.validate(undefined)).toBe(true);
+    expect(coerceRequiredWithMoreChecks.validate(undefined)).toBe(true);
   });
 });
 
@@ -110,30 +122,66 @@ describe("Does not validate when validateIf: false", () => {
     message: ERROR_MESSAGE,
     validateIf: false,
   });
+  const requiredBooleanWithMoreChecks = v
+    .string()
+    .required({
+      message: ERROR_MESSAGE,
+      validateIf: false,
+    })
+    .minLength(5)
+    .ip();
 
   const requiredFunction = v.string().required({
     message: ERROR_MESSAGE,
     validateIf: () => false,
   });
+  const requiredFunctionWithMoreChecks = v
+    .string()
+    .required({
+      message: ERROR_MESSAGE,
+      validateIf: () => false,
+    })
+    .minLength(5)
+    .ip();
 
   const coerceRequiredBoolean = v.coerce.string().required({
     message: ERROR_MESSAGE,
     validateIf: false,
   });
+  const coerceRequiredBooleanWithMoreChecks = v.coerce
+    .string()
+    .required({
+      message: ERROR_MESSAGE,
+      validateIf: false,
+    })
+    .minLength(5)
+    .ip();
 
   const coerceRequiredFunction = v.coerce.string().required({
     message: ERROR_MESSAGE,
     validateIf: () => false,
   });
+  const coerceRequiredFunctionWithMoreChecks = v.coerce
+    .string()
+    .required({
+      message: ERROR_MESSAGE,
+      validateIf: () => false,
+    })
+    .minLength(5)
+    .ip();
 
   it("Without coerce", () => {
     expect(requiredBoolean.validate("")).toBe(true);
+    expect(requiredBooleanWithMoreChecks.validate("")).toBe(true);
     expect(requiredFunction.validate("")).toBe(true);
+    expect(requiredFunctionWithMoreChecks.validate("")).toBe(true);
   });
 
   it("With coerce", () => {
     expect(coerceRequiredBoolean.validate("")).toBe(true);
+    expect(coerceRequiredBooleanWithMoreChecks.validate("")).toBe(true);
     expect(coerceRequiredFunction.validate("")).toBe(true);
+    expect(coerceRequiredFunctionWithMoreChecks.validate("")).toBe(true);
   });
 });
 
